@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { Category, Urgency, NoticeFormData } from '@/lib/types';
 import { CATEGORIES } from '@/lib/constants';
+import { uploadToCloudinary } from '@/lib/cloudinary';
 
 interface Props {
   onSubmit: (data: NoticeFormData) => Promise<void>;
@@ -25,6 +26,7 @@ export default function AdminNoticeForm({ onSubmit, initialData, isEdit }: Props
   const [tagInput, setTagInput] = useState<string>(
     initialData?.tags?.join(', ') || 'ALL'
   );
+  const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState('');
 
@@ -39,6 +41,16 @@ export default function AdminNoticeForm({ onSubmit, initialData, isEdit }: Props
     setMsg('');
     
     try {
+      let finalAttachmentUrl = form.attachmentUrl;
+      let finalAttachmentName = form.attachmentName;
+
+      if (file) {
+        setMsg('⏳ Uploading attachment...');
+        finalAttachmentUrl = await uploadToCloudinary(file);
+        finalAttachmentName = file.name;
+        setMsg('✅ Upload complete. Publishing notice...');
+      }
+
       // Process tags
       const processedTags = tagInput
         .split(',')
@@ -47,6 +59,8 @@ export default function AdminNoticeForm({ onSubmit, initialData, isEdit }: Props
         
       const submissionData = {
         ...form,
+        attachmentUrl: finalAttachmentUrl,
+        attachmentName: finalAttachmentName,
         tags: processedTags.length > 0 ? processedTags : ['ALL']
       };
 
@@ -125,8 +139,17 @@ export default function AdminNoticeForm({ onSubmit, initialData, isEdit }: Props
           <input value={form.postedBy} onChange={(e) => setForm({ ...form, postedBy: e.target.value })} className={inp} placeholder="Your name / Dept" />
         </div>
         <div>
-          <label className={lbl}>Attachment URL</label>
-          <input value={form.attachmentUrl} onChange={(e) => setForm({ ...form, attachmentUrl: e.target.value })} className={inp} placeholder="https://..." />
+          <label className={lbl}>Attachment (Optional)</label>
+          <div className="relative">
+            <input 
+              type="file" 
+              onChange={(e) => e.target.files && setFile(e.target.files[0])} 
+              className={`${inp} file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 p-2`} 
+            />
+            {form.attachmentUrl && !file && (
+              <p className="text-xs text-indigo-600 mt-2 truncate">Current: {form.attachmentUrl}</p>
+            )}
+          </div>
         </div>
       </div>
 
