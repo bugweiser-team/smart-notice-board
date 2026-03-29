@@ -25,6 +25,8 @@ export default function NoticeCard({ notice, index = 0, showExpired }: Props) {
     return appUser.tags.some(userTag => userTag.toUpperCase() === tag.toUpperCase());
   };
 
+  const isUnread = appUser && (!appUser.readNotices || !appUser.readNotices.includes(notice.id));
+
   return (
     <Link href={`/notice/${notice.id}`} className="group block h-full">
       <div 
@@ -55,6 +57,12 @@ export default function NoticeCard({ notice, index = 0, showExpired }: Props) {
             {showExpired && (
               <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400">
                 Expired
+              </span>
+            )}
+            
+            {isUnread && (
+              <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider bg-indigo-600 text-white animate-pulse">
+                NEW
               </span>
             )}
           </div>

@@ -4,6 +4,7 @@ import Calendar from 'react-calendar';
 import { useState } from 'react';
 import { useEvents } from '@/hooks/useEvents';
 import { format } from 'date-fns';
+import 'react-calendar/dist/Calendar.css';
 
 export default function CalendarWidget() {
   const [date, setDate] = useState<Date>(new Date());

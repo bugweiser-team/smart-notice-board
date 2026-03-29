@@ -7,7 +7,7 @@ import AdminNoticeForm from '@/components/AdminNoticeForm';
 import { addNotice } from '@/lib/firestore';
 
 export default function AdminPage() {
-  const { user, loading } = useAuth();
+  const { user, appUser, loading } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
@@ -20,6 +20,22 @@ export default function AdminPage() {
     return (
       <div className="min-h-[50vh] flex items-center justify-center">
         <div className="animate-spin w-8 h-8 rounded-full border-4 border-indigo-500 border-t-transparent"></div>
+      </div>
+    );
+  }
+
+  // Block non-admin users
+  if (appUser && !appUser.isAdmin && appUser.role !== 'admin') {
+    return (
+      <div className="min-h-[50vh] flex flex-col items-center justify-center text-center px-4">
+        <div className="text-6xl mb-4">🔒</div>
+        <h2 className="text-2xl font-extrabold text-slate-800 dark:text-slate-200 mb-2">Access Denied</h2>
+        <p className="text-slate-500 dark:text-slate-400 max-w-md mb-6">
+          This page is restricted to faculty and administrators. If you believe this is an error, contact your institution.
+        </p>
+        <button onClick={() => router.push('/')} className="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold transition-all shadow-md active:scale-95">
+          Go to Dashboard
+        </button>
       </div>
     );
   }

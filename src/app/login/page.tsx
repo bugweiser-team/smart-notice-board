@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
 import { loginWithEmail } from '@/lib/auth';
+import Link from 'next/link';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -12,11 +13,15 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   
   const router = useRouter();
-  const { user } = useAuth();
+  const { user, appUser } = useAuth();
 
-  // If already logged in, redirect
-  if (user) {
-    router.push('/admin');
+  // If already logged in, redirect based on role
+  if (user && appUser) {
+    if (appUser.role === 'admin' || appUser.isAdmin) {
+      router.push('/admin');
+    } else {
+      router.push('/');
+    }
     return null;
   }
 
@@ -26,8 +31,8 @@ export default function LoginPage() {
     setError('');
     
     try {
-      await loginWithEmail(email, password);
-      router.push('/admin');
+      const u = await loginWithEmail(email, password);
+      // Let the AuthContext redirect handle the role-based routing once the profile loads
     } catch (err: any) {
       setError(err.message || 'Failed to login');
     } finally {
@@ -94,6 +99,12 @@ export default function LoginPage() {
             {loading ? 'Authenticating...' : 'Sign In'}
           </button>
         </form>
+        <p className="text-center text-sm font-medium text-slate-500 pt-2 z-10 relative">
+          Are you a student?{' '}
+          <Link href="/signup" className="text-indigo-600 hover:text-indigo-700 font-bold ml-1">
+            Register here
+          </Link>
+        </p>
       </div>
     </div>
   );

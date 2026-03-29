@@ -11,6 +11,8 @@ import {
   Timestamp,
   onSnapshot,
   where,
+  setDoc,
+  arrayUnion,
 } from 'firebase/firestore';
 import { db } from './firebase';
 import { Notice, NoticeFormData, AppUser } from './types';
@@ -105,10 +107,24 @@ export async function getUserProfile(uid: string): Promise<AppUser | null> {
   return { uid: docSnap.id, ...docSnap.data() } as AppUser;
 }
 
+// Create new user profile
+export async function createUserProfile(uid: string, data: Omit<AppUser, "uid">): Promise<void> {
+  const docRef = doc(db, USERS_COLLECTION, uid);
+  await setDoc(docRef, data);
+}
+
 // Update user profile
 export async function updateUserProfile(uid: string, data: Partial<AppUser>): Promise<void> {
   const docRef = doc(db, USERS_COLLECTION, uid);
   await updateDoc(docRef, data as Record<string, unknown>);
+}
+
+// Mark notice as read
+export async function markNoticeAsRead(uid: string, noticeId: string): Promise<void> {
+  const docRef = doc(db, USERS_COLLECTION, uid);
+  await updateDoc(docRef, {
+    readNotices: arrayUnion(noticeId)
+  });
 }
 
 // Seed notices to Firestore

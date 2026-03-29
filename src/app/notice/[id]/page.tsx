@@ -3,11 +3,25 @@ import { useNotices } from '@/hooks/useNotices';
 import { useParams, useRouter } from 'next/navigation';
 import { CATEGORY_ICONS } from '@/lib/constants';
 import { formatDistanceToNow } from 'date-fns';
+import { useEffect } from 'react';
+import { useAuth } from '@/context/AuthContext';
+import { markNoticeAsRead } from '@/lib/firestore';
 
 export default function NoticeDetailPage() {
   const { id } = useParams() as { id: string };
   const { notices, loading } = useNotices();
+  const { user, appUser } = useAuth();
   const router = useRouter();
+
+  const notice = notices.find(n => n.id === id);
+
+  useEffect(() => {
+    if (notice && user && appUser && (!appUser.readNotices || !appUser.readNotices.includes(notice.id))) {
+      markNoticeAsRead(user.uid, notice.id).catch(err => {
+        console.error("Failed to mark read:", err);
+      });
+    }
+  }, [notice, user, appUser]);
 
   if (loading) {
     return (
@@ -16,8 +30,6 @@ export default function NoticeDetailPage() {
       </div>
     );
   }
-
-  const notice = notices.find(n => n.id === id);
 
   if (!notice) {
     return (

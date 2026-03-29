@@ -58,6 +58,8 @@ export interface AppUser {
   tags: string[]; // auto-computed: ["CSE-3", "ALL"]
   subscribedCategories: string[];
   fcmToken: string | null;
+  readNotices?: string[];
+  role?: 'student' | 'admin';
 }
 
 export interface NoticeFormData {

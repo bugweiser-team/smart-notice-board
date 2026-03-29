@@ -65,6 +65,21 @@ export default function AdminNoticeForm({ onSubmit, initialData, isEdit }: Props
       };
 
       await onSubmit(submissionData);
+
+      // Ping the Push Notification engine if it is an Urgent or Important message
+      if (form.urgency !== 'Normal') {
+        fetch('/api/notify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            title: `[${form.urgency.toUpperCase()}] ${form.category} Notice`,
+            body: form.title,
+            urgency: form.urgency,
+            topic: 'ALL'
+          })
+        }).catch(err => console.log("Push failed:", err));
+      }
+
       setMsg(isEdit ? '✅ Notice updated!' : '✅ Notice posted successfully!');
       
       if (!isEdit) {

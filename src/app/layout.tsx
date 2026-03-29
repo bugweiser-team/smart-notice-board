@@ -5,6 +5,7 @@ import { AuthProvider } from "@/context/AuthContext";
 import { ThemeProvider } from "@/context/ThemeContext";
 import AppShell from "@/components/layout/AppShell";
 import NotificationToast from "@/components/NotificationToast";
+import PushNotificationManager from "@/components/PushNotificationManager";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,6 +36,7 @@ export default function RootLayout({
             <AppShell>
               {children}
             </AppShell>
+            <PushNotificationManager />
             <NotificationToast />
           </AuthProvider>
         </ThemeProvider>
