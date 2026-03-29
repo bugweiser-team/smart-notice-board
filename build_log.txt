@@ -1,0 +1,260 @@
+
+> bugweiser-minor@0.1.0 build
+> next build
+
+▲ Next.js 16.2.1 (Turbopack)
+
+  Creating an optimized production build ...
+
+> Build error occurred
+Error: Turbopack build failed with 9 errors:
+./src/app/globals.css
+Error evaluating Node.js code
+Error: Cannot find module 'C:\Users\win10\Downloads\bugweiser-minor-20260329T170748Z-1-001\bugweiser-minor\node_modules\tapable\lib\index.js'. Please verify that the package.json has a valid "main" entry
+    [at tryPackage (node:internal/modules/cjs/loader:531:19)]
+    [at Module._findPath (node:internal/modules/cjs/loader:799:18)]
+    [at Module._resolveFilename (node:internal/modules/cjs/loader:1441:27)]
+    [at defaultResolveImpl (node:internal/modules/cjs/loader:1066:19)]
+    [at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1071:22)]
+    [at Module._load (node:internal/modules/cjs/loader:1242:25)]
+    [at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)]
+    [at Module.require (node:internal/modules/cjs/loader:1556:12)]
+    [at require (node:internal/modules/helpers:152:16)]
+    [at Object.<anonymous> (C:\Users\win10\Downloads\bugweiser-minor-20260329T170748Z-1-001\bugweiser-minor\node_modules\enhanced-resolve\lib\Resolver.js:8:60)]
+
+Import trace:
+  Client Component Browser:
+    ./src/app/globals.css [Client Component Browser]
+    ./src/app/layout.tsx [Server Component]
+
+
+./src/app/page.tsx:6:1
+Module not found: Can't resolve '@/components/dashboard/AssignmentsWidget'
+  [90m4 |[0m [36mimport[0m [33mNoticeWidget[0m [36mfrom[0m [32m'@/components/dashboard/NoticeWidget'[0m;
+  [90m5 |[0m [36mimport[0m [33mCalendarWidget[0m [36mfrom[0m [32m'@/components/dashboard/CalendarWidget'[0m;
+[31m[1m>[0m [90m6 |[0m [36mimport[0m [33mAssignmentsWidget[0m [36mfrom[0m [32m'@/components/dashboard/AssignmentsWidget'[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m7 |[0m
+  [90m8 |[0m [36mexport[0m [36mdefault[0m [36mfunction[0m [33mDashboard[0m() {
+  [90m9 |[0m   [36mreturn[0m (
+
+Import map: aliased to relative './src/components/dashboard/AssignmentsWidget' inside of [project]/
+
+
+Import traces:
+  Client Component Browser:
+    ./src/app/page.tsx [Client Component Browser]
+    ./src/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/page.tsx [Client Component SSR]
+    ./src/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./src/app/page.tsx:5:1
+Module not found: Can't resolve '@/components/dashboard/CalendarWidget'
+  [90m3 |[0m [36mimport[0m [33mWelcomeBanner[0m [36mfrom[0m [32m'@/components/dashboard/WelcomeBanner'[0m;
+  [90m4 |[0m [36mimport[0m [33mNoticeWidget[0m [36mfrom[0m [32m'@/components/dashboard/NoticeWidget'[0m;
+[31m[1m>[0m [90m5 |[0m [36mimport[0m [33mCalendarWidget[0m [36mfrom[0m [32m'@/components/dashboard/CalendarWidget'[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m6 |[0m [36mimport[0m [33mAssignmentsWidget[0m [36mfrom[0m [32m'@/components/dashboard/AssignmentsWidget'[0m;
+  [90m7 |[0m
+  [90m8 |[0m [36mexport[0m [36mdefault[0m [36mfunction[0m [33mDashboard[0m() {
+
+Import map: aliased to relative './src/components/dashboard/CalendarWidget' inside of [project]/
+
+
+Import traces:
+  Client Component Browser:
+    ./src/app/page.tsx [Client Component Browser]
+    ./src/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/page.tsx [Client Component SSR]
+    ./src/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./src/app/page.tsx:4:1
+Module not found: Can't resolve '@/components/dashboard/NoticeWidget'
+  [90m2 |[0m
+  [90m3 |[0m [36mimport[0m [33mWelcomeBanner[0m [36mfrom[0m [32m'@/components/dashboard/WelcomeBanner'[0m;
+[31m[1m>[0m [90m4 |[0m [36mimport[0m [33mNoticeWidget[0m [36mfrom[0m [32m'@/components/dashboard/NoticeWidget'[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m5 |[0m [36mimport[0m [33mCalendarWidget[0m [36mfrom[0m [32m'@/components/dashboard/CalendarWidget'[0m;
+  [90m6 |[0m [36mimport[0m [33mAssignmentsWidget[0m [36mfrom[0m [32m'@/components/dashboard/AssignmentsWidget'[0m;
+  [90m7 |[0m
+
+Import map: aliased to relative './src/components/dashboard/NoticeWidget' inside of [project]/
+
+
+Import traces:
+  Client Component Browser:
+    ./src/app/page.tsx [Client Component Browser]
+    ./src/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/page.tsx [Client Component SSR]
+    ./src/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./src/app/page.tsx:3:1
+Module not found: Can't resolve '@/components/dashboard/WelcomeBanner'
+  [90m1 |[0m [32m'use client'[0m;
+  [90m2 |[0m
+[31m[1m>[0m [90m3 |[0m [36mimport[0m [33mWelcomeBanner[0m [36mfrom[0m [32m'@/components/dashboard/WelcomeBanner'[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m4 |[0m [36mimport[0m [33mNoticeWidget[0m [36mfrom[0m [32m'@/components/dashboard/NoticeWidget'[0m;
+  [90m5 |[0m [36mimport[0m [33mCalendarWidget[0m [36mfrom[0m [32m'@/components/dashboard/CalendarWidget'[0m;
+  [90m6 |[0m [36mimport[0m [33mAssignmentsWidget[0m [36mfrom[0m [32m'@/components/dashboard/AssignmentsWidget'[0m;
+
+Import map: aliased to relative './src/components/dashboard/WelcomeBanner' inside of [project]/
+
+
+Import traces:
+  Client Component Browser:
+    ./src/app/page.tsx [Client Component Browser]
+    ./src/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./src/app/page.tsx [Client Component SSR]
+    ./src/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./src/app/layout.tsx:6:1
+Module not found: Can't resolve '@/components/layout/AppShell'
+  [90m4 |[0m [36mimport[0m { [33mAuthProvider[0m } [36mfrom[0m [32m"@/context/AuthContext"[0m;
+  [90m5 |[0m [36mimport[0m { [33mThemeProvider[0m } [36mfrom[0m [32m"@/context/ThemeContext"[0m;
+[31m[1m>[0m [90m6 |[0m [36mimport[0m [33mAppShell[0m [36mfrom[0m [32m"@/components/layout/AppShell"[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m7 |[0m [36mimport[0m [33mNotificationToast[0m [36mfrom[0m [32m"@/components/NotificationToast"[0m;
+  [90m8 |[0m
+  [90m9 |[0m [36mconst[0m geistSans = [33mGeist[0m({
+
+Import map: aliased to relative './src/components/layout/AppShell' inside of [project]/
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./node_modules/@firebase/app/dist/esm/index.esm.js:5:1
+Module not found: Can't resolve 'idb'
+  [90m3 |[0m [36mimport[0m { [33mErrorFactory[0m, base64Decode, getDefaultAppConfig, deepEqual, isBrowser, isWebWorker..[33m.[0m
+  [90m4 |[0m [36mexport[0m { [33mFirebaseError[0m } [36mfrom[0m [32m'@firebase/util'[0m;
+[31m[1m>[0m [90m5 |[0m [36mimport[0m { openDB } [36mfrom[0m [32m'idb'[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m6 |[0m
+  [90m7 |[0m /**
+  [90m8 |[0m  * @license
+
+
+
+Import traces:
+  Client Component Browser:
+    ./node_modules/@firebase/app/dist/esm/index.esm.js [Client Component Browser]
+    ./node_modules/@firebase/firestore/dist/index.esm.js [Client Component Browser]
+    ./src/lib/firestore.ts [Client Component Browser]
+    ./src/context/AuthContext.tsx [Client Component Browser]
+    ./src/context/AuthContext.tsx [Server Component]
+    ./src/app/layout.tsx [Server Component]
+
+  Client Component SSR:
+    ./node_modules/@firebase/app/dist/esm/index.esm.js [Client Component SSR]
+    ./node_modules/@firebase/firestore/dist/index.node.mjs [Client Component SSR]
+    ./src/lib/firestore.ts [Client Component SSR]
+    ./src/context/AuthContext.tsx [Client Component SSR]
+    ./src/context/AuthContext.tsx [Server Component]
+    ./src/app/layout.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./node_modules/@firebase/installations/dist/esm/index.esm.js:4:1
+Module not found: Can't resolve 'idb'
+  [90m2 |[0m [36mimport[0m { [33mComponent[0m } [36mfrom[0m [32m'@firebase/component'[0m;
+  [90m3 |[0m [36mimport[0m { [33mErrorFactory[0m, [33mFirebaseError[0m } [36mfrom[0m [32m'@firebase/util'[0m;
+[31m[1m>[0m [90m4 |[0m [36mimport[0m { openDB } [36mfrom[0m [32m'idb'[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m5 |[0m
+  [90m6 |[0m [36mconst[0m name = [32m"@firebase/installations"[0m;
+  [90m7 |[0m [36mconst[0m version = [32m"0.6.21"[0m;
+
+
+
+Import traces:
+  Client Component Browser:
+    ./node_modules/@firebase/installations/dist/esm/index.esm.js [Client Component Browser]
+    ./node_modules/@firebase/messaging/dist/esm/index.esm.js [Client Component Browser]
+    ./src/lib/firebase.ts [Client Component Browser]
+    ./src/lib/firestore.ts [Client Component Browser]
+    ./src/context/AuthContext.tsx [Client Component Browser]
+    ./src/context/AuthContext.tsx [Server Component]
+    ./src/app/layout.tsx [Server Component]
+
+  Client Component SSR:
+    ./node_modules/@firebase/installations/dist/esm/index.esm.js [Client Component SSR]
+    ./node_modules/@firebase/messaging/dist/esm/index.esm.js [Client Component SSR]
+    ./src/lib/firebase.ts [Client Component SSR]
+    ./src/lib/firestore.ts [Client Component SSR]
+    ./src/context/AuthContext.tsx [Client Component SSR]
+    ./src/context/AuthContext.tsx [Server Component]
+    ./src/app/layout.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./node_modules/@firebase/messaging/dist/esm/index.esm.js:3:1
+Module not found: Can't resolve 'idb'
+  [90m1 |[0m [36mimport[0m [32m'@firebase/installations'[0m;
+  [90m2 |[0m [36mimport[0m { [33mComponent[0m } [36mfrom[0m [32m'@firebase/component'[0m;
+[31m[1m>[0m [90m3 |[0m [36mimport[0m { openDB, deleteDB } [36mfrom[0m [32m'idb'[0m;
+  [90m  |[0m [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m4 |[0m [36mimport[0m { [33mErrorFactory[0m, validateIndexedDBOpenable, isIndexedDBAvailable, areCookiesEnabled, ...
+  [90m5 |[0m [36mimport[0m { _registerComponent, registerVersion, _getProvider, getApp } [36mfrom[0m [32m'@firebase/app'[0m;
+  [90m6 |[0m
+
+
+
+Import traces:
+  Client Component Browser:
+    ./node_modules/@firebase/messaging/dist/esm/index.esm.js [Client Component Browser]
+    ./src/lib/firebase.ts [Client Component Browser]
+    ./src/lib/firestore.ts [Client Component Browser]
+    ./src/context/AuthContext.tsx [Client Component Browser]
+    ./src/context/AuthContext.tsx [Server Component]
+    ./src/app/layout.tsx [Server Component]
+
+  Client Component SSR:
+    ./node_modules/@firebase/messaging/dist/esm/index.esm.js [Client Component SSR]
+    ./src/lib/firebase.ts [Client Component SSR]
+    ./src/lib/firestore.ts [Client Component SSR]
+    ./src/context/AuthContext.tsx [Client Component SSR]
+    ./src/context/AuthContext.tsx [Server Component]
+    ./src/app/layout.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+    at <unknown> (./src/app/page.tsx:6:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./src/app/page.tsx:5:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./src/app/page.tsx:4:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./src/app/page.tsx:3:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./src/app/layout.tsx:6:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at ./node_modules/ (firebase/app/dist/esm/index.esm.js:5:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at ./node_modules/ (firebase/installations/dist/esm/index.esm.js:4:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at ./node_modules/ (firebase/messaging/dist/esm/index.esm.js:3:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
