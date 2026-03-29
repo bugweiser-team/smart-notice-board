@@ -1,0 +1,5 @@
+src/components/dashboard/CalendarWidget.tsx(2,22): error TS2307: Cannot find module 'react-calendar' or its corresponding type declarations.
+src/components/dashboard/CalendarWidget.tsx(46,20): error TS7006: Parameter 'val' implicitly has an 'any' type.
+src/components/NoticeList.tsx(22,112): error TS2339: Property 'light' does not exist on type '{ bg: string; text: string; accent: string; border: string; icon: string; darkBg: string; darkText: string; darkBorder: string; }'.
+src/lib/firestore.ts(16,34): error TS2305: Module '"./types"' has no exported member 'UserProfile'.
+src/lib/firestore.ts(24,3): error TS2741: Property 'tags' is missing in type '{ id: string; title: string; body: string; category: Notice["category"]; urgency: Notice["urgency"]; postedBy: string; postedAt: Date; expiryDate: Date; isPinned: boolean; attachmentUrl: string | null; attachmentName: string | null; }' but required in type 'Notice'.

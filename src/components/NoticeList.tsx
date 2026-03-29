@@ -19,7 +19,7 @@ export default function NoticeList({ notices, onEdit, onDelete, onTogglePin }: P
           <div key={n.id} className="flex items-center justify-between gap-3 p-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg">
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 mb-1">
-                <span className="text-xs px-2 py-0.5 rounded-full font-medium" style={{ backgroundColor: color.light, color: color.text }}>
+                <span className="text-xs px-2 py-0.5 rounded-full font-medium" style={{ backgroundColor: color.bg, color: color.text }}>
                   {CATEGORY_ICONS[n.category]} {n.category}
                 </span>
                 {n.isPinned && <span className="text-xs">📌</span>}

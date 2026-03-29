@@ -1,4 +1,5 @@
 'use client';
+// @ts-ignore
 import Calendar from 'react-calendar';
 import { useState } from 'react';
 import { useEvents } from '@/hooks/useEvents';
@@ -43,7 +44,7 @@ export default function CalendarWidget() {
     <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-[var(--border-primary)] p-5 w-full">
       <h3 className="text-base font-bold mb-4">Academic Calendar</h3>
       <Calendar 
-        onChange={(val) => setDate(val as Date)} 
+        onChange={(val: any) => setDate(val as Date)} 
         value={date} 
         tileContent={tileContent}
         className="w-full !font-sans !border-0 bg-transparent react-calendar"

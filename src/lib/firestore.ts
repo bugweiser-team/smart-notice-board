@@ -13,7 +13,7 @@ import {
   where,
 } from 'firebase/firestore';
 import { db } from './firebase';
-import { Notice, NoticeFormData, UserProfile } from './types';
+import { Notice, NoticeFormData, AppUser } from './types';
 
 const NOTICES_COLLECTION = 'notices';
 const USERS_COLLECTION = 'users';
@@ -26,6 +26,7 @@ function docToNotice(docSnap: { id: string; data: () => Record<string, unknown> 
     title: data.title as string,
     body: data.body as string,
     category: data.category as Notice['category'],
+    tags: (data.tags as string[]) || ['ALL'],
     urgency: data.urgency as Notice['urgency'],
     postedBy: data.postedBy as string,
     postedAt: (data.postedAt as Timestamp)?.toDate?.() || new Date(data.postedAt as string),
@@ -94,15 +95,15 @@ export async function togglePin(id: string, isPinned: boolean): Promise<void> {
 }
 
 // Get user profile
-export async function getUserProfile(uid: string): Promise<UserProfile | null> {
+export async function getUserProfile(uid: string): Promise<AppUser | null> {
   const docRef = doc(db, USERS_COLLECTION, uid);
   const docSnap = await getDoc(docRef);
   if (!docSnap.exists()) return null;
-  return { uid: docSnap.id, ...docSnap.data() } as UserProfile;
+  return { uid: docSnap.id, ...docSnap.data() } as AppUser;
 }
 
 // Update user profile
-export async function updateUserProfile(uid: string, data: Partial<UserProfile>): Promise<void> {
+export async function updateUserProfile(uid: string, data: Partial<AppUser>): Promise<void> {
   const docRef = doc(db, USERS_COLLECTION, uid);
   await updateDoc(docRef, data as Record<string, unknown>);
 }
