@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
 import { loginWithEmail } from '@/lib/auth';
@@ -16,12 +16,17 @@ export default function LoginPage() {
   const { user, appUser } = useAuth();
 
   // If already logged in, redirect based on role
-  if (user && appUser) {
-    if (appUser.role === 'admin' || appUser.isAdmin) {
-      router.push('/admin');
-    } else {
-      router.push('/');
+  useEffect(() => {
+    if (user && appUser) {
+      if (appUser.role === 'admin' || appUser.isAdmin) {
+        router.push('/admin');
+      } else {
+        router.push('/');
+      }
     }
+  }, [user, appUser, router]);
+
+  if (user && appUser) {
     return null;
   }
 
