@@ -243,3 +243,61 @@ export async function getPinnedCount(): Promise<number> {
   const snapshot = await getDocs(q);
   return snapshot.size;
 }
+
+// ──────────── COMMENTS ────────────
+
+export interface Comment {
+  id: string;
+  text: string;
+  authorName: string;
+  authorEmail: string;
+  authorUid: string;
+  createdAt: Date;
+}
+
+// Real-time comments listener for a specific notice
+export function onCommentsSnapshot(
+  noticeId: string,
+  callback: (comments: Comment[]) => void,
+  onError?: (error: Error) => void
+): () => void {
+  const q = query(
+    collection(db, NOTICES_COLLECTION, noticeId, 'comments'),
+    orderBy('createdAt', 'asc')
+  );
+  return onSnapshot(q, (snapshot) => {
+    const comments: Comment[] = snapshot.docs.map(d => {
+      const data = d.data();
+      return {
+        id: d.id,
+        text: data.text as string,
+        authorName: data.authorName as string,
+        authorEmail: data.authorEmail as string,
+        authorUid: data.authorUid as string,
+        createdAt: (data.createdAt as Timestamp)?.toDate?.() || new Date(),
+      };
+    });
+    callback(comments);
+  }, (error) => {
+    console.error("Comments Snapshot Error:", error);
+    if (onError) onError(error);
+  });
+}
+
+// Add a comment to a notice
+export async function addComment(noticeId: string, data: {
+  text: string;
+  authorName: string;
+  authorEmail: string;
+  authorUid: string;
+}): Promise<void> {
+  await addDoc(collection(db, NOTICES_COLLECTION, noticeId, 'comments'), {
+    ...data,
+    createdAt: Timestamp.now(),
+  });
+}
+
+// Delete a comment
+export async function deleteComment(noticeId: string, commentId: string): Promise<void> {
+  await deleteDoc(doc(db, NOTICES_COLLECTION, noticeId, 'comments', commentId));
+}

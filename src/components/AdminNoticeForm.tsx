@@ -4,6 +4,21 @@ import { Category, Urgency, NoticeFormData } from '@/lib/types';
 import { CATEGORIES } from '@/lib/constants';
 import { uploadToCloudinary } from '@/lib/cloudinary';
 
+// Smart tag suggestions based on category
+function getTagSuggestions(category: Category): string[] {
+  const common = ['ALL', 'CSE-3', 'CSE-4', 'BBA-3', 'BBA-4', 'BCOM-3', 'BCOM-4'];
+  const map: Record<Category, string[]> = {
+    Academic: ['CSE-1', 'CSE-2', 'CSE-3', 'CSE-4', 'BBA-1', 'BBA-2', 'BBA-3', 'BBA-4', 'BCOM-3', 'ALL'],
+    Placement: ['CSE-4', 'BBA-4', 'BCOM-4', 'CSE-3', 'BBA-3', 'ALL'],
+    Events: ['ALL', 'CSE-3', 'CSE-4', 'BBA-3', 'BBA-4'],
+    Scholarships: ['ALL', 'CSE-1', 'CSE-2', 'BBA-1', 'BBA-2', 'BCOM-1', 'BCOM-2'],
+    Sports: ['ALL', 'CSE-3', 'CSE-4', 'BBA-3'],
+    Hostel: ['ALL', 'HOSTEL-A', 'HOSTEL-B', 'HOSTEL-C'],
+    General: common,
+  };
+  return map[category] || common;
+}
+
 interface Props {
   onSubmit: (data: NoticeFormData) => Promise<void>;
   initialData?: Partial<NoticeFormData> & { tags?: string[] };
@@ -131,6 +146,29 @@ export default function AdminNoticeForm({ onSubmit, initialData, isEdit }: Props
           placeholder="e.g. ALL or CSE-3, BBA-4" 
         />
         <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-1.5 font-medium ml-1">Use "ALL" for public notices, or target specific groups like "CSE-3".</p>
+        {/* Smart Tag Suggestions */}
+        <div className="flex flex-wrap gap-1.5 mt-2">
+          {getTagSuggestions(form.category).map(tag => {
+            const isActive = tagInput.toUpperCase().includes(tag);
+            return (
+              <button
+                key={tag}
+                type="button"
+                onClick={() => {
+                  if (isActive) return;
+                  setTagInput(prev => prev.trim() === '' || prev.trim() === 'ALL' ? tag : `${prev}, ${tag}`);
+                }}
+                className={`text-[11px] font-semibold px-2.5 py-1 rounded-lg border transition-all ${
+                  isActive
+                    ? 'bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-400 border-indigo-200 dark:border-indigo-800'
+                    : 'bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400 border-slate-200 dark:border-slate-700 hover:border-indigo-300 hover:text-indigo-600 cursor-pointer'
+                }`}
+              >
+                {isActive ? '✓ ' : '+ '}{tag}
+              </button>
+            );
+          })}
+        </div>
       </div>
       <div>
         <label className={lbl}>Urgency</label>

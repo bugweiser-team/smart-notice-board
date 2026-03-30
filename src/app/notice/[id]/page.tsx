@@ -6,6 +6,7 @@ import { formatDistanceToNow } from 'date-fns';
 import { useEffect, useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { markNoticeAsRead, deleteNotice } from '@/lib/firestore';
+import CommentsSection from '@/components/CommentsSection';
 
 export default function NoticeDetailPage() {
   const { id } = useParams() as { id: string };
@@ -143,6 +144,9 @@ export default function NoticeDetailPage() {
           </div>
         )}
       </article>
+
+      {/* Comments Section */}
+      <CommentsSection noticeId={notice.id} />
     </div>
   );
 }

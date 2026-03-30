@@ -39,6 +39,14 @@ export default function AssignmentsWidget() {
     }
   };
 
+  const getUrgencyStyles = (dueDate: Date) => {
+    const hoursAway = (dueDate.getTime() - Date.now()) / (1000 * 60 * 60);
+    if (hoursAway < 0) return 'text-slate-500 bg-slate-100 dark:bg-slate-800/50 dark:text-slate-400'; // Past due
+    if (hoursAway < 24) return 'text-rose-600 bg-rose-50 dark:bg-rose-900/20 dark:text-rose-400 border border-rose-200 dark:border-rose-900/30 animate-pulse'; // < 24h
+    if (hoursAway < 72) return 'text-amber-600 bg-amber-50 dark:bg-amber-900/20 dark:text-amber-400 border border-amber-200 dark:border-amber-900/30'; // < 3 days
+    return 'text-indigo-600 bg-indigo-50 dark:bg-indigo-900/20 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-900/30'; // Normal
+  };
+
   return (
     <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-[var(--border-primary)] p-5 w-full">
       <div className="flex justify-between items-center mb-4">
@@ -68,8 +76,8 @@ export default function AssignmentsWidget() {
               <p className="text-xs text-gray-500 dark:text-gray-400 mb-2 truncate">
                 {assignment.course}
               </p>
-              <div className="flex items-center text-[11px] font-medium text-amber-600 bg-amber-50 dark:bg-amber-900/20 dark:text-amber-400 w-fit px-2 py-0.5 rounded-md">
-                ⏰ Due {formatDistanceToNow(assignment.dueDate, { addSuffix: true })}
+              <div className={`flex items-center text-[10px] font-bold w-fit px-2 py-1 rounded-lg transition-all duration-300 ${getUrgencyStyles(assignment.dueDate)}`}>
+                ⏰ {formatDistanceToNow(assignment.dueDate, { addSuffix: true })}
               </div>
             </div>
           ))
