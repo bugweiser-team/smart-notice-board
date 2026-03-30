@@ -1,10 +1,12 @@
 'use client';
+
 // @ts-ignore
 import Calendar from 'react-calendar';
 import { useState, useEffect } from 'react';
 import { useNotices } from '@/hooks/useNotices';
 import { format } from 'date-fns';
 import 'react-calendar/dist/Calendar.css';
+import { HiOutlineCalendar } from 'react-icons/hi';
 
 export default function CalendarWidget() {
   const [date, setDate] = useState<Date>(new Date());
@@ -12,11 +14,11 @@ export default function CalendarWidget() {
   const { filteredNotices } = useNotices();
 
   const colorMap: Record<string, string> = {
-    'Academic': '#EF4444',
-    'Placement': '#10B981',
-    'Events': '#8B5CF6',
-    'Scholarships': '#3B82F6',
-    'Sports': '#F59E0B',
+    'Academic': '#E11D48',
+    'Placement': '#22C55E',
+    'Events': '#F97316',
+    'Scholarships': '#A855F7',
+    'Sports': '#EAB308',
     'Hostel': '#06B6D4',
     'General': '#6B7280'
   };
@@ -35,15 +37,14 @@ export default function CalendarWidget() {
 
   if (!mounted) {
     return (
-      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-[var(--border-primary)] p-5 w-full min-h-[400px] flex items-center justify-center">
-        <div className="animate-pulse flex items-center gap-2 text-slate-400 font-medium text-sm">
+      <div className="bg-[var(--surface-secondary)] rounded-[20px] border border-[var(--border-primary)] p-5 min-h-[400px] flex items-center justify-center">
+        <div className="animate-pulse flex items-center gap-2 text-[var(--text-tertiary)] font-medium text-sm">
           Loading Calendar...
         </div>
       </div>
     );
   }
 
-  // Highlight days with events
   const tileContent = ({ date: tileDate, view }: { date: Date; view: string }) => {
     if (view === 'month') {
       const dayEvents = events.filter(e => 
@@ -53,11 +54,11 @@ export default function CalendarWidget() {
       );
       if (dayEvents.length > 0) {
         return (
-          <div className="flex justify-center gap-1 mt-1">
+          <div className="flex justify-center gap-0.5 mt-0.5">
             {dayEvents.slice(0, 3).map((event, i) => (
               <div 
                 key={i} 
-                className="w-1.5 h-1.5 rounded-full" 
+                className="w-1 h-1 rounded-full" 
                 style={{ backgroundColor: event.color }}
               />
             ))}
@@ -75,8 +76,16 @@ export default function CalendarWidget() {
   );
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-[var(--border-primary)] p-5 w-full">
-      <h3 className="text-base font-bold mb-4">Academic Calendar</h3>
+    <div className="bg-[var(--surface-secondary)] rounded-[20px] border border-[var(--border-primary)] p-5 shadow-[var(--shadow-card)]">
+      {/* Header */}
+      <div className="flex items-center justify-between mb-4">
+        <h3 className="text-base font-bold text-[var(--text-primary)]">Calendar</h3>
+        <div className="w-8 h-8 rounded-lg bg-[var(--card-mint)] flex items-center justify-center">
+          <HiOutlineCalendar className="w-4 h-4 text-emerald-700" />
+        </div>
+      </div>
+
+      {/* Calendar */}
       <Calendar 
         onChange={(val: any) => setDate(val as Date)} 
         value={date} 
@@ -84,23 +93,39 @@ export default function CalendarWidget() {
         className="w-full !font-sans !border-0 bg-transparent react-calendar"
       />
       
+      {/* Selected Day Events */}
       <div className="mt-4 pt-4 border-t border-[var(--border-primary)]">
-        <h4 className="text-sm font-semibold mb-3 flex justify-between">
-          <span>{format(date, 'MMM d, yyyy')}</span>
-          <span className="text-xs font-normal text-gray-500 bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">
+        <div className="flex items-center justify-between mb-3">
+          <h4 className="text-sm font-semibold text-[var(--text-primary)]">
+            {format(date, 'MMMM d, yyyy')}
+          </h4>
+          <span className="text-xs font-medium text-[var(--text-tertiary)] bg-[var(--surface-tertiary)] px-2 py-1 rounded-full">
             {selectedDayEvents.length} events
           </span>
-        </h4>
-        <div className="space-y-2">
+        </div>
+        
+        <div className="space-y-2 max-h-[160px] overflow-y-auto">
           {selectedDayEvents.length === 0 ? (
-            <p className="text-xs text-gray-400 text-center py-2">No scheduled events</p>
+            <p className="text-xs text-[var(--text-tertiary)] text-center py-4">
+              No events scheduled
+            </p>
           ) : (
             selectedDayEvents.map(event => (
-              <div key={event.id} className="flex gap-2 p-2 rounded-lg bg-gray-50 dark:bg-gray-700/50">
-                <div className="w-1 rounded-full shrink-0" style={{ backgroundColor: event.color }}></div>
-                <div>
-                  <p className="text-xs font-semibold text-gray-800 dark:text-gray-200">{event.title}</p>
-                  <p className="text-[10px] text-gray-500">{event.category}</p>
+              <div 
+                key={event.id} 
+                className="flex items-start gap-3 p-3 rounded-xl bg-[var(--surface-tertiary)] hover:bg-[var(--surface-hover)] transition-colors"
+              >
+                <div 
+                  className="w-1 h-full min-h-[40px] rounded-full shrink-0" 
+                  style={{ backgroundColor: event.color }}
+                />
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-[var(--text-primary)] line-clamp-1">
+                    {event.title}
+                  </p>
+                  <p className="text-xs text-[var(--text-tertiary)] mt-0.5">
+                    {event.category}
+                  </p>
                 </div>
               </div>
             ))

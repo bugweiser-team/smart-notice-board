@@ -10,18 +10,17 @@ export default function UrgencyBadge({ urgency }: { urgency: Urgency }) {
   
   return (
     <span
-      className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-[6px] text-[11px] font-semibold uppercase tracking-wide border h-[24px]"
+      className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide"
       style={{ 
         backgroundColor: s.bg, 
         color: s.text, 
-        borderColor: s.border 
       }}
     >
       <div 
         className={`w-1.5 h-1.5 rounded-full ${urgency === 'Urgent' ? 'animate-pulse' : ''}`} 
         style={{ backgroundColor: s.dot }} 
       />
-      {urgency}
+      {s.label}
     </span>
   );
 }

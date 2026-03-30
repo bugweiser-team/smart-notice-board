@@ -5,6 +5,7 @@ import { useAuth } from '@/context/AuthContext';
 import { useRouter } from 'next/navigation';
 import { loginWithEmail } from '@/lib/auth';
 import Link from 'next/link';
+import { HiOutlineMail, HiOutlineLockClosed, HiOutlineArrowRight } from 'react-icons/hi';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -15,7 +16,6 @@ export default function LoginPage() {
   const router = useRouter();
   const { user, appUser } = useAuth();
 
-  // If already logged in, redirect based on role
   useEffect(() => {
     if (user && appUser) {
       if (appUser.role === 'admin' || appUser.isAdmin) {
@@ -36,8 +36,7 @@ export default function LoginPage() {
     setError('');
     
     try {
-      const u = await loginWithEmail(email, password);
-      // Let the AuthContext redirect handle the role-based routing once the profile loads
+      await loginWithEmail(email, password);
     } catch (err: any) {
       setError(err.message || 'Failed to login');
     } finally {
@@ -46,70 +45,97 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-[70vh] flex items-center justify-center p-4">
-      <div className="max-w-md w-full rounded-4xl p-8 shadow-2xl space-y-8 relative overflow-hidden bg-white/70 dark:bg-slate-900/60 backdrop-blur-xl border border-white dark:border-slate-800">
-        
-        {/* Decorative blobs */}
-        <div className="absolute top-[-20%] left-[-10%] w-48 h-48 bg-indigo-500/20 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-[-20%] right-[-10%] w-48 h-48 bg-purple-500/20 rounded-full blur-3xl pointer-events-none" />
-        
-        <div className="relative z-10 text-center">
-          <h2 className="text-3xl font-extrabold pb-2 bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-            Admin Access
-          </h2>
-          <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
-            Sign in to manage the notice board
+    <div className="min-h-[80vh] flex items-center justify-center p-4">
+      <div className="w-full max-w-md">
+        {/* Card */}
+        <div className="bg-[var(--surface-secondary)] rounded-[28px] p-8 shadow-[var(--shadow-lg)] border border-[var(--border-primary)]">
+          {/* Header */}
+          <div className="text-center mb-8">
+            <div className="w-14 h-14 rounded-2xl bg-[var(--surface-sidebar)] flex items-center justify-center mx-auto mb-4">
+              <span className="text-[var(--accent-lime)] font-bold text-xl">N</span>
+            </div>
+            <h1 className="text-2xl font-bold text-[var(--text-primary)] mb-2">
+              Welcome back
+            </h1>
+            <p className="text-sm text-[var(--text-secondary)]">
+              Sign in to access your dashboard
+            </p>
+          </div>
+
+          {/* Form */}
+          <form onSubmit={handleLogin} className="space-y-5">
+            {/* Email */}
+            <div>
+              <label className="block text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wider mb-2">
+                Email Address
+              </label>
+              <div className="relative">
+                <div className="absolute left-4 top-1/2 -translate-y-1/2 w-8 h-8 rounded-lg bg-[var(--surface-tertiary)] flex items-center justify-center">
+                  <HiOutlineMail className="w-4 h-4 text-[var(--text-tertiary)]" />
+                </div>
+                <input 
+                  type="email" 
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full h-14 pl-14 pr-4 rounded-2xl border border-[var(--border-primary)] bg-[var(--surface-primary)] text-[var(--text-primary)] placeholder-[var(--text-tertiary)] focus:outline-none focus:border-[var(--accent-lime)] focus:ring-2 focus:ring-[var(--accent-lime)]/20 transition-all"
+                  placeholder="you@example.com"
+                  required
+                />
+              </div>
+            </div>
+
+            {/* Password */}
+            <div>
+              <label className="block text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wider mb-2">
+                Password
+              </label>
+              <div className="relative">
+                <div className="absolute left-4 top-1/2 -translate-y-1/2 w-8 h-8 rounded-lg bg-[var(--surface-tertiary)] flex items-center justify-center">
+                  <HiOutlineLockClosed className="w-4 h-4 text-[var(--text-tertiary)]" />
+                </div>
+                <input 
+                  type="password" 
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full h-14 pl-14 pr-4 rounded-2xl border border-[var(--border-primary)] bg-[var(--surface-primary)] text-[var(--text-primary)] placeholder-[var(--text-tertiary)] focus:outline-none focus:border-[var(--accent-lime)] focus:ring-2 focus:ring-[var(--accent-lime)]/20 transition-all"
+                  placeholder="Enter your password"
+                  required
+                />
+              </div>
+            </div>
+
+            {/* Error */}
+            {error && (
+              <div className="p-4 rounded-xl bg-[#FEE2E2] border border-[#FECACA] text-[#DC2626] text-sm font-medium flex items-center gap-2">
+                <span className="shrink-0">Warning:</span> {error}
+              </div>
+            )}
+
+            {/* Submit */}
+            <button 
+              type="submit" 
+              disabled={loading}
+              className="w-full h-14 rounded-2xl bg-[var(--surface-sidebar)] text-white font-semibold text-[15px] flex items-center justify-center gap-2 hover:bg-[#2D2D44] transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+            >
+              {loading ? (
+                <div className="w-5 h-5 rounded-full border-2 border-white/30 border-t-white animate-spin" />
+              ) : (
+                <>
+                  Sign In
+                  <HiOutlineArrowRight className="w-4 h-4" />
+                </>
+              )}
+            </button>
+          </form>
+
+          {/* Footer */}
+          <p className="text-center text-sm text-[var(--text-secondary)] mt-6">
+            Are you a student?{' '}
+            <Link href="/signup" className="text-[var(--text-primary)] font-semibold hover:underline">
+              Register here
+            </Link>
           </p>
         </div>
-        
-        <form onSubmit={handleLogin} className="relative z-10 space-y-5">
-          <div>
-            <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-2">
-              Email Address
-            </label>
-            <input 
-              type="email" 
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-3 rounded-2xl border border-[var(--border-primary)] bg-white/50 dark:bg-slate-800/50 focus:ring-4 focus:ring-indigo-500/20 focus:border-indigo-400 outline-none transition-all placeholder:text-slate-400"
-              placeholder="admin@college.edu"
-              required
-            />
-          </div>
-          <div>
-            <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-2">
-              Password
-            </label>
-            <input 
-              type="password" 
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-3 rounded-2xl border border-[var(--border-primary)] bg-white/50 dark:bg-slate-800/50 focus:ring-4 focus:ring-indigo-500/20 focus:border-indigo-400 outline-none transition-all placeholder:text-slate-400"
-              placeholder="••••••••"
-              required
-            />
-          </div>
-          
-          {error && (
-            <div className="p-3 rounded-xl bg-rose-50 dark:bg-rose-900/20 border border-rose-200 dark:border-rose-800/50 text-rose-600 dark:text-rose-400 text-sm font-medium flex items-center gap-2">
-              ⚠️ {error}
-            </div>
-          )}
-          
-          <button 
-            type="submit" 
-            disabled={loading}
-            className="w-full py-3.5 px-4 rounded-2xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold text-sm shadow-lg shadow-indigo-500/20 hover:shadow-indigo-500/40 transition-all hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-60 disabled:pointer-events-none"
-          >
-            {loading ? 'Authenticating...' : 'Sign In'}
-          </button>
-        </form>
-        <p className="text-center text-sm font-medium text-slate-500 pt-2 z-10 relative">
-          Are you a student?{' '}
-          <Link href="/signup" className="text-indigo-600 hover:text-indigo-700 font-bold ml-1">
-            Register here
-          </Link>
-        </p>
       </div>
     </div>
   );

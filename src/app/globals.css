@@ -3,79 +3,119 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
+  /* === NEW DESIGN SYSTEM - Inspired by Modern Education Dashboards === */
+  
+  /* === OUTER SHELL === */
+  --shell-bg: #D4F5E4;               /* Soft mint green outer background */
+  
   /* === SURFACES === */
-  --surface-primary: #FAFBFE;        /* Page background — warm off-white */
-  --surface-secondary: #FFFFFF;       /* Cards, panels, modals */
-  --surface-tertiary: #F1F5F9;       /* Nested containers, code blocks */
-  --surface-sidebar: #F0F3FA;        /* Sidebar — hint of lavender */
-  --surface-hover: #F5F7FF;          /* Hover state on cards */
-  --surface-active: #EEF2FF;         /* Active/selected state */
-  --surface-overlay: rgba(15, 23, 42, 0.4); /* Modal backdrop */
+  --surface-primary: #FFFFFF;         /* Main content area - clean white */
+  --surface-secondary: #FFFFFF;       /* Cards, panels */
+  --surface-tertiary: #F8FAFC;        /* Nested containers */
+  --surface-sidebar: #1A1A2E;         /* Dark charcoal sidebar */
+  --surface-hover: #F5F7FA;           /* Hover state */
+  --surface-active: #F0FDF4;          /* Active state - mint tint */
+  --surface-overlay: rgba(15, 23, 42, 0.4);
+
+  /* === PASTEL CARD BACKGROUNDS === */
+  --card-pink: #FADCD9;               /* Soft pink */
+  --card-peach: #FBE8D3;              /* Warm peach/cream */
+  --card-lavender: #E8DDF5;           /* Soft lavender */
+  --card-mint: #D4F5E4;               /* Soft mint */
+  --card-yellow: #FEF9C3;             /* Soft yellow */
+  --card-blue: #DBEAFE;               /* Soft blue */
+  --card-lime: #D4F57A;               /* Lime green accent */
 
   /* === TEXT === */
-  --text-primary: #1E293B;           /* Headings, titles — slate-800 */
-  --text-secondary: #475569;         /* Body text — slate-600 */
-  --text-tertiary: #94A3B8;          /* Metadata, timestamps — slate-400 */
-  --text-placeholder: #CBD5E1;       /* Input placeholders — slate-300 */
-  --text-inverse: #FFFFFF;           /* Text on colored backgrounds */
+  --text-primary: #1A1A2E;            /* Deep charcoal for headings */
+  --text-secondary: #4A5568;          /* Body text */
+  --text-tertiary: #9CA3AF;           /* Metadata, timestamps */
+  --text-placeholder: #CBD5E1;        /* Input placeholders */
+  --text-inverse: #FFFFFF;            /* Text on dark/colored backgrounds */
+  --text-sidebar: #FFFFFF;            /* Sidebar text */
+  --text-sidebar-muted: #9CA3AF;      /* Sidebar secondary text */
 
   /* === BORDERS === */
-  --border-primary: #E8ECF4;         /* Card borders — soft */
-  --border-secondary: #F1F5F9;       /* Dividers — very subtle */
-  --border-hover: #CBD5E1;           /* Hover border — slate-300 */
-  --border-focus: #818CF8;           /* Focus ring — indigo-400 */
+  --border-primary: #E5E7EB;          /* Card borders - very soft */
+  --border-secondary: #F3F4F6;        /* Dividers - subtle */
+  --border-hover: #D1D5DB;            /* Hover border */
+  --border-focus: #D4F57A;            /* Focus ring - lime accent */
 
   /* === ACCENT (Primary Action) === */
-  --accent-primary: #6366F1;         /* Indigo-500 — buttons, links, active nav */
-  --accent-primary-hover: #4F46E5;   /* Indigo-600 */
-  --accent-primary-light: #EEF2FF;   /* Indigo-50 — light tint backgrounds */
-  --accent-primary-ring: rgba(99, 102, 241, 0.2); /* Focus ring shadow */
+  --accent-primary: #1A1A2E;          /* Dark for primary buttons */
+  --accent-primary-hover: #2D2D44;    /* Slightly lighter on hover */
+  --accent-lime: #D4F57A;             /* Lime green highlight */
+  --accent-lime-hover: #C5E86B;       /* Lime hover */
+  --accent-primary-light: #F0FDF4;    /* Light mint tint */
+  --accent-primary-ring: rgba(212, 245, 122, 0.3);
 
-  /* === SHADOWS === */
-  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.10);
-  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.12);
-  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.06);
-  --shadow-card-hover: 0 4px 12px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04);
+  /* === SHADOWS - Softer, more diffused === */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.03);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.08);
+  --shadow-xl: 0 16px 60px rgba(0, 0, 0, 0.10);
+  --shadow-card: 0 2px 12px rgba(0, 0, 0, 0.04);
+  --shadow-card-hover: 0 8px 30px rgba(0, 0, 0, 0.08);
+
+  /* === BORDER RADIUS === */
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 20px;
+  --radius-xl: 24px;
+  --radius-2xl: 32px;
+  --radius-full: 9999px;
 }
 
 .dark {
-  --surface-primary: #0B1120;         /* Deep navy — NOT pure black */
-  --surface-secondary: #151D2E;       /* Card bg */
-  --surface-tertiary: #1C2640;        /* Nested containers */
-  --surface-sidebar: #101828;         /* Sidebar */
-  --surface-hover: #1C2640;
-  --surface-active: #1E2A45;
+  --shell-bg: #0F172A;
+  --surface-primary: #1E293B;
+  --surface-secondary: #1E293B;
+  --surface-tertiary: #334155;
+  --surface-sidebar: #0F172A;
+  --surface-hover: #334155;
+  --surface-active: #1E3A3A;
   --surface-overlay: rgba(0, 0, 0, 0.6);
 
-  --text-primary: #F1F5F9;            /* slate-100 */
-  --text-secondary: #94A3B8;          /* slate-400 */
-  --text-tertiary: #64748B;           /* slate-500 */
+  --card-pink: #3D2A2A;
+  --card-peach: #3D3328;
+  --card-lavender: #2D2840;
+  --card-mint: #1E3A2E;
+  --card-yellow: #3D3A1E;
+  --card-blue: #1E2D40;
+  --card-lime: #3A4A1E;
+
+  --text-primary: #F8FAFC;
+  --text-secondary: #CBD5E1;
+  --text-tertiary: #64748B;
   --text-placeholder: #475569;
-  --text-inverse: #0F172A;
+  --text-inverse: #1A1A2E;
+  --text-sidebar: #F8FAFC;
+  --text-sidebar-muted: #64748B;
 
-  --border-primary: #1E293B;          /* slate-800 */
-  --border-secondary: #1A2332;
-  --border-hover: #334155;            /* slate-700 */
-  --border-focus: #818CF8;
+  --border-primary: #334155;
+  --border-secondary: #1E293B;
+  --border-hover: #475569;
+  --border-focus: #D4F57A;
 
-  --accent-primary: #818CF8;          /* Slightly lighter indigo in dark */
-  --accent-primary-hover: #6366F1;
-  --accent-primary-light: rgba(99, 102, 241, 0.12);
-  --accent-primary-ring: rgba(129, 140, 248, 0.25);
+  --accent-primary: #D4F57A;
+  --accent-primary-hover: #C5E86B;
+  --accent-lime: #D4F57A;
+  --accent-lime-hover: #C5E86B;
+  --accent-primary-light: rgba(212, 245, 122, 0.1);
+  --accent-primary-ring: rgba(212, 245, 122, 0.25);
 
   --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.2);
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.35);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.4);
-  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.2), 0 0 1px rgba(0, 0, 0, 0.3);
-  --shadow-card-hover: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.25);
+  --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.35);
+  --shadow-card: 0 2px 12px rgba(0, 0, 0, 0.2);
+  --shadow-card-hover: 0 8px 30px rgba(0, 0, 0, 0.3);
 }
 
 @theme inline {
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --color-shell-bg: var(--shell-bg);
   --color-surface-primary: var(--surface-primary);
   --color-surface-secondary: var(--surface-secondary);
   --color-surface-tertiary: var(--surface-tertiary);
@@ -91,6 +131,14 @@
   --color-border-secondary: var(--border-secondary);
   --color-border-hover: var(--border-hover);
   --color-border-focus: var(--border-focus);
+
+  --color-accent-lime: var(--accent-lime);
+  --color-card-pink: var(--card-pink);
+  --color-card-peach: var(--card-peach);
+  --color-card-lavender: var(--card-lavender);
+  --color-card-mint: var(--card-mint);
+  --color-card-yellow: var(--card-yellow);
+  --color-card-blue: var(--card-blue);
 }
 
 html {
@@ -100,7 +148,7 @@ html {
 }
 
 body {
-  background: var(--surface-primary);
+  background: var(--shell-bg);
   color: var(--text-primary);
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
@@ -110,9 +158,10 @@ body {
   color: inherit;
 }
 
-/* === CUSTOM SCROLLBAR (Desktop) === */
+/* === CUSTOM SCROLLBAR === */
 ::-webkit-scrollbar {
   width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
   background: transparent;
@@ -125,20 +174,19 @@ body {
   background: var(--border-hover);
 }
 
-/* Scrollbar hide for category pills */
 .scrollbar-hide::-webkit-scrollbar { display: none; }
 .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
 
-/* === FOCUS VISIBLE (accessibility) === */
+/* === FOCUS VISIBLE === */
 *:focus-visible {
-  outline: 2px solid var(--accent-primary);
+  outline: 2px solid var(--accent-lime);
   outline-offset: 2px;
-  border-radius: 8px;
+  border-radius: 12px;
 }
 
-/* Animations */
+/* === ANIMATIONS === */
 @keyframes fadeSlideUp {
-  from { opacity: 0; transform: translateY(12px); }
+  from { opacity: 0; transform: translateY(16px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
@@ -147,12 +195,30 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
 .animate-fadeInUp {
-  animation: fadeSlideUp 300ms ease-out both;
+  animation: fadeSlideUp 400ms ease-out both;
 }
 
 .animate-slideDown {
-  animation: slideDown 200ms ease-out both;
+  animation: slideDown 300ms ease-out both;
+}
+
+.animate-slideInLeft {
+  animation: slideInLeft 400ms ease-out both;
+}
+
+.animate-scaleIn {
+  animation: scaleIn 300ms ease-out both;
 }
 
 /* Line clamp */
@@ -176,15 +242,15 @@ body {
 
 /* === GLASS EFFECT === */
 .glass {
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
 }
 .dark .glass {
-  background: rgba(15, 23, 42, 0.8);
+  background: rgba(30, 41, 59, 0.85);
 }
 
-/* React Calendar Overrides */
+/* === React Calendar Overrides - Matching Reference Design === */
 .react-calendar {
   width: 100%;
   border: none;
@@ -193,11 +259,11 @@ body {
 }
 
 .react-calendar__navigation {
-  margin-bottom: 8px;
+  margin-bottom: 12px;
 }
 .react-calendar__navigation button {
-  font-size: 15px;
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 700;
   color: var(--text-primary);
   background: none;
   border-radius: 12px;
@@ -223,8 +289,9 @@ body {
   font-size: 13px;
   font-weight: 500;
   color: var(--text-secondary);
-  border-radius: 12px;
-  padding: 10px 6px;
+  border-radius: 50%;
+  aspect-ratio: 1;
+  padding: 8px;
   position: relative;
   background: transparent !important;
 }
@@ -237,28 +304,54 @@ body {
 }
 
 .react-calendar__tile--now {
-  background: var(--accent-primary-light);
-  color: var(--accent-primary);
+  background: transparent !important;
+  color: var(--text-primary);
   font-weight: 700;
 }
 
 .react-calendar__tile--active {
-  background: var(--accent-primary) !important;
-  color: white !important;
-  font-weight: 600;
+  background: var(--accent-lime) !important;
+  color: var(--text-primary) !important;
+  font-weight: 700;
 }
 
-/* Notice Card Specific */
+/* === NOTICE CARD HOVER === */
+.notice-card {
+  transition: all 0.2s ease-out;
+}
+
 .notice-card:hover {
-  transform: translateY(-1px);
+  transform: translateY(-2px);
   box-shadow: var(--shadow-card-hover);
-  border-color: var(--border-hover);
 }
 
 .notice-card:active {
-  transform: translateY(0px) scale(0.995);
+  transform: translateY(0px) scale(0.98);
   transition-duration: 50ms;
 }
+
+/* === SIDEBAR NAV ITEM === */
+.sidebar-nav-item {
+  transition: all 0.2s ease;
+}
+
+.sidebar-nav-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.sidebar-nav-item.active {
+  background: var(--accent-lime);
+  color: var(--text-primary);
+}
+
+/* === CATEGORY PILL PASTEL BACKGROUNDS === */
+.pill-academic { background: var(--card-blue); }
+.pill-placement { background: var(--card-mint); }
+.pill-events { background: var(--card-peach); }
+.pill-scholarships { background: var(--card-lavender); }
+.pill-sports { background: var(--card-pink); }
+.pill-hostel { background: #CCF0FF; }
+.pill-general { background: #F3F4F6; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

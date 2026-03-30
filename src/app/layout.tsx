@@ -18,8 +18,12 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Smart Student Dashboard",
+  title: "NoticeBoard - Smart Student Dashboard",
   description: "A personalized smart digital notice board and dashboard for college campuses.",
+};
+
+export const viewport = {
+  themeColor: "#D4F5E4",
 };
 
 export default function RootLayout({

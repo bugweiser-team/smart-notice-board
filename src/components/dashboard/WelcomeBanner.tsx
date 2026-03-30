@@ -1,22 +1,34 @@
 'use client';
+
 import { useAuth } from '@/context/AuthContext';
 import { formatDate } from '@/lib/utils';
+import { useState, useEffect } from 'react';
 
 export default function WelcomeBanner() {
   const { appUser } = useAuth();
+  const [mounted, setMounted] = useState(false);
   
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Get greeting based on time of day
+  const getGreeting = () => {
+    if (!mounted) return 'Welcome';
+    const hour = new Date().getHours();
+    if (hour < 12) return 'Good morning';
+    if (hour < 17) return 'Good afternoon';
+    return 'Good evening';
+  };
+
   return (
-    <div className="bg-gradient-to-r from-blue-500 to-indigo-600 rounded-2xl p-6 text-white shadow-lg overflow-hidden relative w-full">
-      <div className="relative z-10 flex justify-between items-center">
-        <div>
-          <h1 className="text-2xl font-bold mb-1">
-            Welcome back, {appUser?.name.split(' ')[0] || 'Student'}! 👋
-          </h1>
-          <p className="text-blue-100 text-sm">
-            {formatDate(new Date())} • {appUser?.department || 'Select Department'}
-          </p>
-        </div>
-      </div>
+    <div className="mb-8">
+      <h1 className="text-3xl lg:text-4xl font-bold text-[var(--text-primary)] mb-2">
+        {getGreeting()}, {appUser?.name?.split(' ')[0] || 'Student'}
+      </h1>
+      <p className="text-[var(--text-secondary)] text-base" suppressHydrationWarning>
+        {mounted ? formatDate(new Date()) : ''} {appUser?.department && `| ${appUser.department}`}
+      </p>
     </div>
   );
 }

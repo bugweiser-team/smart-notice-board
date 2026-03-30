@@ -8,6 +8,7 @@ import AdminAssignmentForm from '@/components/AdminAssignmentForm';
 import { addNotice, addAssignment, deleteAssignment } from '@/lib/firestore';
 import { useAssignments } from '@/hooks/useAssignments';
 import { formatDistanceToNow } from 'date-fns';
+import { HiOutlineClipboardList, HiOutlineAcademicCap, HiOutlineTrash, HiOutlineClock, HiOutlineLockClosed } from 'react-icons/hi';
 
 export default function AdminPage() {
   const { user, appUser, loading } = useAuth();
@@ -25,7 +26,7 @@ export default function AdminPage() {
   if (loading || !user) {
     return (
       <div className="min-h-[50vh] flex items-center justify-center">
-        <div className="animate-spin w-8 h-8 rounded-full border-4 border-indigo-500 border-t-transparent"></div>
+        <div className="w-10 h-10 rounded-full border-3 border-[var(--accent-lime)] border-t-transparent animate-spin" />
       </div>
     );
   }
@@ -34,12 +35,17 @@ export default function AdminPage() {
   if (appUser && !appUser.isAdmin && appUser.role !== 'admin') {
     return (
       <div className="min-h-[50vh] flex flex-col items-center justify-center text-center px-4">
-        <div className="text-6xl mb-4">🔒</div>
-        <h2 className="text-2xl font-extrabold text-slate-800 dark:text-slate-200 mb-2">Access Denied</h2>
-        <p className="text-slate-500 dark:text-slate-400 max-w-md mb-6">
+        <div className="w-20 h-20 rounded-full bg-[var(--card-pink)] flex items-center justify-center mb-6">
+          <HiOutlineLockClosed className="w-10 h-10 text-rose-600" />
+        </div>
+        <h2 className="text-2xl font-bold text-[var(--text-primary)] mb-2">Access Denied</h2>
+        <p className="text-[var(--text-secondary)] max-w-md mb-6">
           This page is restricted to faculty and administrators. If you believe this is an error, contact your institution.
         </p>
-        <button onClick={() => router.push('/')} className="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold transition-all shadow-md active:scale-95">
+        <button 
+          onClick={() => router.push('/')} 
+          className="px-6 py-3 bg-[var(--surface-sidebar)] text-white rounded-xl font-semibold hover:bg-[#2D2D44] transition-colors"
+        >
           Go to Dashboard
         </button>
       </div>
@@ -59,39 +65,46 @@ export default function AdminPage() {
   };
 
   return (
-    <div className="max-w-3xl mx-auto py-8">
-      <h1 className="text-3xl font-extrabold pb-2 bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-2">
-        Admin Dashboard
-      </h1>
-      <p className="text-slate-500 dark:text-slate-400 mb-6 font-medium">Manage notices and assignments for the smart board.</p>
+    <div className="max-w-4xl mx-auto py-6">
+      {/* Header */}
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-[var(--text-primary)] mb-2">
+          Admin Dashboard
+        </h1>
+        <p className="text-[var(--text-secondary)]">
+          Manage notices and assignments for the smart board.
+        </p>
+      </div>
       
       {/* Tab Switcher */}
       <div className="flex gap-2 mb-6">
         <button
           onClick={() => setActiveTab('notice')}
-          className={`px-5 py-2.5 rounded-xl text-sm font-bold transition-all ${
+          className={`flex items-center gap-2 px-5 py-3 rounded-xl text-sm font-semibold transition-all ${
             activeTab === 'notice'
-              ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/30'
-              : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
+              ? 'bg-[var(--surface-sidebar)] text-white shadow-lg'
+              : 'bg-[var(--surface-secondary)] border border-[var(--border-primary)] text-[var(--text-secondary)] hover:border-[var(--border-hover)]'
           }`}
         >
-          📋 Post Notice
+          <HiOutlineClipboardList className="w-4 h-4" />
+          Post Notice
         </button>
         <button
           onClick={() => setActiveTab('assignment')}
-          className={`px-5 py-2.5 rounded-xl text-sm font-bold transition-all ${
+          className={`flex items-center gap-2 px-5 py-3 rounded-xl text-sm font-semibold transition-all ${
             activeTab === 'assignment'
-              ? 'bg-amber-500 text-white shadow-lg shadow-amber-500/30'
-              : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
+              ? 'bg-[var(--accent-lime)] text-[#1A1A2E] shadow-lg'
+              : 'bg-[var(--surface-secondary)] border border-[var(--border-primary)] text-[var(--text-secondary)] hover:border-[var(--border-hover)]'
           }`}
         >
-          📚 Assignments
+          <HiOutlineAcademicCap className="w-4 h-4" />
+          Assignments
         </button>
       </div>
 
       {/* Notice Tab */}
       {activeTab === 'notice' && (
-        <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 md:p-8 shadow-xl shadow-indigo-500/5 border border-indigo-100 dark:border-slate-800">
+        <div className="bg-[var(--surface-secondary)] rounded-[24px] p-6 md:p-8 shadow-[var(--shadow-card)] border border-[var(--border-primary)]">
           <AdminNoticeForm 
             onSubmit={async (data) => {
               await addNotice(data);
@@ -104,9 +117,12 @@ export default function AdminPage() {
       {activeTab === 'assignment' && (
         <div className="space-y-6">
           {/* Create Form */}
-          <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 md:p-8 shadow-xl shadow-amber-500/5 border border-amber-100 dark:border-slate-800">
-            <h2 className="text-lg font-bold text-slate-800 dark:text-slate-100 mb-4 flex items-center gap-2">
-              <span className="text-xl">📝</span> Create New Assignment
+          <div className="bg-[var(--surface-secondary)] rounded-[24px] p-6 md:p-8 shadow-[var(--shadow-card)] border border-[var(--border-primary)]">
+            <h2 className="text-lg font-bold text-[var(--text-primary)] mb-4 flex items-center gap-2">
+              <div className="w-8 h-8 rounded-lg bg-[var(--card-mint)] flex items-center justify-center">
+                <HiOutlineAcademicCap className="w-4 h-4 text-emerald-700" />
+              </div>
+              Create New Assignment
             </h2>
             <AdminAssignmentForm
               onSubmit={async (data) => {
@@ -116,28 +132,51 @@ export default function AdminPage() {
           </div>
 
           {/* Current Assignments List */}
-          <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 md:p-8 shadow-xl shadow-slate-500/5 border border-slate-100 dark:border-slate-800">
-            <h2 className="text-lg font-bold text-slate-800 dark:text-slate-100 mb-4 flex items-center justify-between">
-              <span className="flex items-center gap-2"><span className="text-xl">📚</span> Active Assignments</span>
-              <span className="text-xs font-semibold bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 px-2.5 py-1 rounded-lg">
+          <div className="bg-[var(--surface-secondary)] rounded-[24px] p-6 md:p-8 shadow-[var(--shadow-card)] border border-[var(--border-primary)]">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg font-bold text-[var(--text-primary)] flex items-center gap-2">
+                <div className="w-8 h-8 rounded-lg bg-[var(--card-peach)] flex items-center justify-center">
+                  <HiOutlineClipboardList className="w-4 h-4 text-orange-700" />
+                </div>
+                Active Assignments
+              </h2>
+              <span className="text-xs font-semibold bg-[var(--card-peach)] text-orange-700 px-3 py-1.5 rounded-full">
                 {assignments.length} Total
               </span>
-            </h2>
+            </div>
+            
             {assignments.length === 0 ? (
-              <p className="text-sm text-center text-slate-400 py-8">No assignments yet. Create one above! 🎉</p>
+              <div className="text-center py-12">
+                <div className="w-16 h-16 rounded-full bg-[var(--surface-tertiary)] flex items-center justify-center mx-auto mb-4">
+                  <HiOutlineAcademicCap className="w-8 h-8 text-[var(--text-tertiary)]" />
+                </div>
+                <p className="text-sm font-medium text-[var(--text-primary)]">No assignments yet</p>
+                <p className="text-xs text-[var(--text-tertiary)] mt-1">Create one using the form above</p>
+              </div>
             ) : (
               <div className="space-y-3">
                 {assignments.map(a => (
-                  <div key={a.id} className="flex items-center justify-between gap-3 p-4 rounded-xl border border-slate-100 dark:border-slate-800 hover:border-amber-200 dark:hover:border-amber-800 transition-colors">
+                  <div 
+                    key={a.id} 
+                    className="flex items-center justify-between gap-4 p-4 rounded-xl border border-[var(--border-primary)] hover:border-[var(--border-hover)] bg-[var(--surface-primary)] transition-colors"
+                  >
                     <div className="min-w-0 flex-1">
-                      <p className="text-sm font-bold text-slate-800 dark:text-slate-200 truncate">{a.title}</p>
-                      <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{a.course}</p>
-                      <div className="flex items-center gap-2 mt-1.5">
-                        <span className="text-[11px] font-medium text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/20 px-2 py-0.5 rounded-md">
-                          ⏰ Due {formatDistanceToNow(a.dueDate, { addSuffix: true })}
+                      <p className="text-sm font-semibold text-[var(--text-primary)] truncate">
+                        {a.title}
+                      </p>
+                      <p className="text-xs text-[var(--text-tertiary)] mt-0.5">
+                        {a.course}
+                      </p>
+                      <div className="flex items-center gap-2 mt-2 flex-wrap">
+                        <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-amber-700 bg-[var(--card-peach)] px-2 py-1 rounded-lg">
+                          <HiOutlineClock className="w-3 h-3" />
+                          Due {formatDistanceToNow(a.dueDate, { addSuffix: true })}
                         </span>
                         {a.tags && a.tags.map(t => (
-                          <span key={t} className="text-[10px] font-medium text-slate-500 bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded">
+                          <span 
+                            key={t} 
+                            className="text-[10px] font-medium text-[var(--text-tertiary)] bg-[var(--surface-tertiary)] px-2 py-1 rounded-lg"
+                          >
                             {t}
                           </span>
                         ))}
@@ -146,9 +185,13 @@ export default function AdminPage() {
                     <button
                       onClick={() => handleDeleteAssignment(a.id)}
                       disabled={deletingId === a.id}
-                      className="px-3 py-1.5 bg-rose-50 dark:bg-rose-900/20 text-rose-600 dark:text-rose-400 font-bold text-xs rounded-lg hover:bg-rose-100 dark:hover:bg-rose-900/40 transition-colors disabled:opacity-50 shrink-0"
+                      className="w-10 h-10 rounded-xl bg-[#FEE2E2] hover:bg-[#FECACA] text-rose-600 flex items-center justify-center transition-colors disabled:opacity-50 shrink-0"
                     >
-                      {deletingId === a.id ? '⏳' : '🗑️'}
+                      {deletingId === a.id ? (
+                        <div className="w-4 h-4 rounded-full border-2 border-rose-600/30 border-t-rose-600 animate-spin" />
+                      ) : (
+                        <HiOutlineTrash className="w-4 h-4" />
+                      )}
                     </button>
                   </div>
                 ))}
