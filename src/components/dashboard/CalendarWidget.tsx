@@ -1,14 +1,29 @@
 'use client';
 // @ts-ignore
 import Calendar from 'react-calendar';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useEvents } from '@/hooks/useEvents';
 import { format } from 'date-fns';
 import 'react-calendar/dist/Calendar.css';
 
 export default function CalendarWidget() {
   const [date, setDate] = useState<Date>(new Date());
+  const [mounted, setMounted] = useState(false);
   const { events } = useEvents();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return (
+      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-[var(--border-primary)] p-5 w-full min-h-[400px] flex items-center justify-center">
+        <div className="animate-pulse flex items-center gap-2 text-slate-400 font-medium text-sm">
+          Loading Calendar...
+        </div>
+      </div>
+    );
+  }
 
   // Highlight days with events
   const tileContent = ({ date: tileDate, view }: { date: Date; view: string }) => {

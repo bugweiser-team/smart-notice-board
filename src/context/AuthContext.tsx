@@ -62,6 +62,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             // Casting to AppUser or null. If null, use basic info.
             if (profile) {
               setAppUser(profile as unknown as AppUser);
+            } else if (
+              firebaseUser.email === 'admin@dashboard.com' ||
+              firebaseUser.email === 'admin@college.edu'
+            ) {
+              setAppUser({
+                ...SEED_USERS[0],
+                uid: firebaseUser.uid,
+                email: firebaseUser.email,
+              });
             } else {
               setAppUser(null);
             }

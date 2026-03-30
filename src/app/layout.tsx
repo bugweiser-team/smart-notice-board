@@ -29,7 +29,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)]`}>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-[var(--surface-primary)] text-[var(--text-primary)]`}>
         <ThemeProvider>
           <AuthProvider>
             {/* AppShell handles the Sidebar, TopBar, and BottomNav routing logic */}
