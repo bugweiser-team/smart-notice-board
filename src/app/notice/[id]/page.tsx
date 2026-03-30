@@ -3,17 +3,33 @@ import { useNotices } from '@/hooks/useNotices';
 import { useParams, useRouter } from 'next/navigation';
 import { CATEGORY_ICONS } from '@/lib/constants';
 import { formatDistanceToNow } from 'date-fns';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
-import { markNoticeAsRead } from '@/lib/firestore';
+import { markNoticeAsRead, deleteNotice } from '@/lib/firestore';
 
 export default function NoticeDetailPage() {
   const { id } = useParams() as { id: string };
   const { notices, loading } = useNotices();
   const { user, appUser } = useAuth();
   const router = useRouter();
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const notice = notices.find(n => n.id === id);
+  const isAdmin = appUser && (appUser.isAdmin || appUser.role === 'admin');
+
+  const handleDelete = async () => {
+    if (window.confirm("Are you sure you want to permanently delete this notice?")) {
+      setIsDeleting(true);
+      try {
+        await deleteNotice(notice!.id);
+        router.push('/');
+      } catch (err) {
+        console.error(err);
+        alert("Failed to delete notice");
+        setIsDeleting(false);
+      }
+    }
+  };
 
   useEffect(() => {
     if (notice && user && appUser && (!appUser.readNotices || !appUser.readNotices.includes(notice.id))) {
@@ -45,9 +61,28 @@ export default function NoticeDetailPage() {
 
   return (
     <div className="max-w-3xl mx-auto py-4 md:py-8 h-full min-h-[70vh]">
-      <button onClick={() => router.back()} className="mb-6 flex items-center gap-2 text-sm font-semibold text-slate-500 hover:text-indigo-600 transition-colors">
-        ← Back
-      </button>
+      <div className="flex justify-between items-center mb-6">
+        <button onClick={() => router.back()} className="flex items-center gap-2 text-sm font-semibold text-slate-500 hover:text-indigo-600 transition-colors">
+          ← Back
+        </button>
+        {isAdmin && (
+          <div className="flex items-center gap-3">
+            <button 
+              onClick={() => router.push(`/admin/edit/${notice.id}`)}
+              className="px-4 py-1.5 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-400 font-bold rounded-lg text-sm hover:bg-indigo-100 transition-colors"
+            >
+              ✏️ Edit
+            </button>
+            <button 
+              onClick={handleDelete}
+              disabled={isDeleting}
+              className="px-4 py-1.5 bg-rose-50 dark:bg-rose-900/30 text-rose-700 dark:text-rose-400 font-bold rounded-lg text-sm hover:bg-rose-100 transition-colors disabled:opacity-50"
+            >
+              {isDeleting ? "⏳ Deleting..." : "🗑️ Delete"}
+            </button>
+          </div>
+        )}
+      </div>
       
       <article className="bg-white dark:bg-slate-900 rounded-3xl p-6 md:p-8 md:p-10 shadow-xl shadow-indigo-500/5 border border-[var(--border-primary)]">
         <div className="flex flex-wrap items-center gap-3 mb-6">
