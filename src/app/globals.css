@@ -226,9 +226,14 @@ body {
   border-radius: 12px;
   padding: 10px 6px;
   position: relative;
+  background: transparent !important;
+}
+.react-calendar__tile:disabled {
+  background: transparent !important;
+  color: var(--text-tertiary);
 }
 .react-calendar__tile:hover {
-  background: var(--surface-hover);
+  background: var(--surface-hover) !important;
 }
 
 .react-calendar__tile--now {

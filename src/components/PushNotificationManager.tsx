@@ -78,7 +78,7 @@ export default function PushNotificationManager() {
   if (!showPrompt) return null;
 
   return (
-    <div className="fixed bottom-24 md:bottom-8 right-4 md:right-8 z-[100] max-w-sm w-[calc(100%-2rem)] bg-white dark:bg-slate-900 border border-indigo-100 dark:border-slate-800 shadow-2xl rounded-2xl p-5 animate-fadeInUp">
+    <div className="fixed top-20 md:top-auto md:bottom-8 right-4 md:right-8 z-[100] max-w-sm w-[calc(100%-2rem)] bg-white dark:bg-slate-900 border border-indigo-100 dark:border-slate-800 shadow-2xl rounded-2xl p-5 animate-slideDown md:animate-fadeInUp">
       <div className="flex gap-4">
         <div className="w-10 h-10 rounded-full bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center shrink-0">
           <span className="text-xl">🔔</span>
