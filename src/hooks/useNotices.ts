@@ -30,16 +30,56 @@ export function useNotices() {
       return;
     }
 
-    // Firebase configured — use real-time listener
-    import('@/lib/firestore').then(({ onNoticesSnapshot }) => {
-      const unsubscribe = onNoticesSnapshot((firebaseNotices) => {
-        setNotices(firebaseNotices);
-        setLoading(false);
-      }, (error) => {
-        console.error("Firebase connection blocked:", error);
-        setNotices(getSeededNotices());
-        setLoading(false);
-      });
+    // Firebase configured — use real-time listener WITH new-notice detection
+    import('@/lib/firestore').then(({ onNoticesSnapshotWithChanges }) => {
+      const unsubscribe = onNoticesSnapshotWithChanges(
+        (firebaseNotices) => {
+          setNotices(firebaseNotices);
+          setLoading(false);
+        },
+        (newNotice) => {
+          // 🔔 Play notification sound
+          try {
+            const audio = new Audio('https://cdn.pixabay.com/download/audio/2021/08/04/audio_0625c1539c.mp3');
+            audio.volume = 0.8;
+            audio.play().catch(() => {});
+          } catch {}
+
+          // 🔔 Show browser notification
+          if (typeof window !== 'undefined' && 'Notification' in window && Notification.permission === 'granted') {
+            new Notification(`📋 ${newNotice.title}`, {
+              body: newNotice.body.slice(0, 120),
+              icon: '/favicon.ico',
+              tag: newNotice.id,
+            });
+          }
+
+          // 🔔 Show in-page toast
+          if (typeof window !== 'undefined') {
+            const toast = document.createElement('div');
+            toast.id = 'live-notice-toast';
+            toast.innerHTML = `
+              <div style="position:fixed;top:70px;right:16px;z-index:9999;max-width:360px;width:calc(100% - 32px);background:linear-gradient(135deg,#4f46e5,#7c3aed);color:white;border-radius:16px;padding:16px 20px;box-shadow:0 8px 32px rgba(79,70,229,0.4);animation:slideDown 300ms ease-out;font-family:Inter,sans-serif;">
+                <div style="display:flex;align-items:flex-start;gap:12px;">
+                  <span style="font-size:24px;flex-shrink:0;">🔔</span>
+                  <div style="min-width:0;">
+                    <p style="font-weight:800;font-size:13px;margin:0 0 4px 0;opacity:0.85;">NEW NOTICE</p>
+                    <p style="font-weight:700;font-size:14px;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${newNotice.title}</p>
+                    <p style="font-size:12px;margin:4px 0 0 0;opacity:0.8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${newNotice.body.slice(0, 80)}</p>
+                  </div>
+                </div>
+              </div>
+            `;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 5000);
+          }
+        },
+        (error) => {
+          console.error("Firebase connection blocked:", error);
+          setNotices(getSeededNotices());
+          setLoading(false);
+        }
+      );
       return () => unsubscribe();
     }).catch(() => {
       // Fallback to seed data on error

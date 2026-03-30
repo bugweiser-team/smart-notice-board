@@ -13,12 +13,14 @@ import {
   where,
   setDoc,
   arrayUnion,
+  arrayRemove,
 } from 'firebase/firestore';
 import { db } from './firebase';
-import { Notice, NoticeFormData, AppUser } from './types';
+import { Notice, NoticeFormData, AppUser, Assignment } from './types';
 
 const NOTICES_COLLECTION = 'notices';
 const USERS_COLLECTION = 'users';
+const ASSIGNMENTS_COLLECTION = 'assignments';
 
 // Convert Firestore doc to Notice
 function docToNotice(docSnap: { id: string; data: () => Record<string, unknown> }): Notice {
@@ -38,6 +40,24 @@ function docToNotice(docSnap: { id: string; data: () => Record<string, unknown> 
     attachmentName: (data.attachmentName as string) || null,
   };
 }
+
+// Convert Firestore doc to Assignment
+function docToAssignment(docSnap: { id: string; data: () => Record<string, unknown> }): Assignment {
+  const data = docSnap.data();
+  return {
+    id: docSnap.id,
+    title: data.title as string,
+    course: data.course as string,
+    description: (data.description as string) || '',
+    dueDate: (data.dueDate as Timestamp)?.toDate?.() || new Date(data.dueDate as string),
+    tags: (data.tags as string[]) || ['ALL'],
+    isCompleted: false,
+    postedBy: data.postedBy as string,
+    postedAt: (data.postedAt as Timestamp)?.toDate?.() || new Date(data.postedAt as string),
+  };
+}
+
+// ──────────── NOTICES ────────────
 
 // Get all notices (one-time)
 export async function getNotices(): Promise<Notice[]> {
@@ -60,6 +80,34 @@ export function onNoticesSnapshot(callback: (notices: Notice[]) => void, onError
   return onSnapshot(q, (snapshot) => {
     const notices = snapshot.docs.map(docToNotice);
     callback(notices);
+  }, (error) => {
+    console.error("Firestore Snapshot Error:", error);
+    if (onError) onError(error);
+  });
+}
+
+// Real-time notices listener WITH change detection (for notifications)
+export function onNoticesSnapshotWithChanges(
+  callback: (notices: Notice[]) => void,
+  onNewNotice: (notice: Notice) => void,
+  onError?: (error: Error) => void
+): () => void {
+  const q = query(collection(db, NOTICES_COLLECTION), orderBy('postedAt', 'desc'));
+  let isInitialLoad = true;
+  return onSnapshot(q, (snapshot) => {
+    const notices = snapshot.docs.map(docToNotice);
+    callback(notices);
+    if (isInitialLoad) {
+      isInitialLoad = false;
+      return;
+    }
+    // Fire callback for genuinely new notices
+    snapshot.docChanges().forEach((change) => {
+      if (change.type === 'added') {
+        const newNotice = docToNotice(change.doc as unknown as { id: string; data: () => Record<string, unknown> });
+        onNewNotice(newNotice);
+      }
+    });
   }, (error) => {
     console.error("Firestore Snapshot Error:", error);
     if (onError) onError(error);
@@ -98,6 +146,54 @@ export async function togglePin(id: string, isPinned: boolean): Promise<void> {
   const docRef = doc(db, NOTICES_COLLECTION, id);
   await updateDoc(docRef, { isPinned });
 }
+
+// ──────────── ASSIGNMENTS ────────────
+
+// Real-time assignments listener
+export function onAssignmentsSnapshot(callback: (assignments: Assignment[]) => void, onError?: (error: Error) => void): () => void {
+  const q = query(collection(db, ASSIGNMENTS_COLLECTION), orderBy('dueDate', 'asc'));
+  return onSnapshot(q, (snapshot) => {
+    const assignments = snapshot.docs.map(docToAssignment);
+    callback(assignments);
+  }, (error) => {
+    console.error("Assignments Snapshot Error:", error);
+    if (onError) onError(error);
+  });
+}
+
+// Add assignment
+export async function addAssignment(data: {
+  title: string;
+  course: string;
+  description: string;
+  dueDate: string;
+  tags: string[];
+  postedBy: string;
+}): Promise<string> {
+  const docRef = await addDoc(collection(db, ASSIGNMENTS_COLLECTION), {
+    ...data,
+    dueDate: Timestamp.fromDate(new Date(data.dueDate)),
+    postedAt: Timestamp.now(),
+  });
+  return docRef.id;
+}
+
+// Delete assignment
+export async function deleteAssignment(id: string): Promise<void> {
+  await deleteDoc(doc(db, ASSIGNMENTS_COLLECTION, id));
+}
+
+// Toggle assignment completion for a user
+export async function toggleAssignmentCompletion(uid: string, assignmentId: string, completed: boolean): Promise<void> {
+  const docRef = doc(db, USERS_COLLECTION, uid);
+  if (completed) {
+    await updateDoc(docRef, { completedAssignments: arrayUnion(assignmentId) });
+  } else {
+    await updateDoc(docRef, { completedAssignments: arrayRemove(assignmentId) });
+  }
+}
+
+// ──────────── USERS ────────────
 
 // Get user profile
 export async function getUserProfile(uid: string): Promise<AppUser | null> {

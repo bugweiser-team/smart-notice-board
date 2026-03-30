@@ -59,6 +59,7 @@ export interface AppUser {
   subscribedCategories: string[];
   fcmToken: string | null;
   readNotices?: string[];
+  completedAssignments?: string[];
   role?: 'student' | 'admin';
 }
 

@@ -2,16 +2,27 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     
-    // Notices: Anyone can read, only admins can write
-    match /notices/{noticeId} {
-      allow read: if true;
-      allow create, update, delete: if request.auth != null 
+    // Helper: check if user is admin
+    function isAdmin() {
+      return request.auth != null 
         && (
           get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true ||
           request.auth.token.email == 'bugweiser.team@gmail.com' ||
           request.auth.token.email == 'admin@college.edu' ||
           request.auth.token.email == 'admin@dashboard.com'
         );
+    }
+
+    // Notices: Anyone can read, only admins can write
+    match /notices/{noticeId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+
+    // Assignments: Anyone can read, only admins can write
+    match /assignments/{assignmentId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
     }
     
     // Users: Users can read/update their own profile, admins can read all
