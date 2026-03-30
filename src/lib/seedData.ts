@@ -420,21 +420,21 @@ export const SEED_NOTICES: Omit<Notice, 'id'>[] = [
 ];
 
 export const SEED_EVENTS: Omit<CalendarEvent, 'id'>[] = [
-  { title: "Mid-Semester Exams Begin", category: "Exam", date: new Date("2026-04-14T00:00:00Z"), tags: ["ALL"], color: "#EF4444", description: "" },
-  { title: "Mid-Semester Exams End", category: "Exam", date: new Date("2026-04-25T00:00:00Z"), tags: ["ALL"], color: "#EF4444", description: "" },
-  { title: "TCS Pre-Placement Talk", category: "Deadline", date: new Date("2026-04-03T00:00:00Z"), tags: ["CSE-4","IT-4","ECE-4"], color: "#10B981", description: "" },
-  { title: "Resume Workshop", category: "Workshop", date: new Date("2026-04-06T00:00:00Z"), tags: ["ALL"], color: "#F59E0B", description: "" },
-  { title: "Infosys On-Campus Drive", category: "Deadline", date: new Date("2026-04-12T00:00:00Z"), tags: ["CSE-4","IT-4"], color: "#10B981", description: "" },
-  { title: "Aarohan Cultural Fest - Day 1", category: "Club", date: new Date("2026-04-18T00:00:00Z"), tags: ["ALL"], color: "#8B5CF6", description: "" },
-  { title: "Aarohan Cultural Fest - Day 2", category: "Club", date: new Date("2026-04-19T00:00:00Z"), tags: ["ALL"], color: "#8B5CF6", description: "" },
-  { title: "Aarohan Cultural Fest - Day 3", category: "Club", date: new Date("2026-04-20T00:00:00Z"), tags: ["ALL"], color: "#8B5CF6", description: "" },
-  { title: "Blood Donation Camp", category: "Club", date: new Date("2026-04-08T00:00:00Z"), tags: ["ALL"], color: "#EF4444", description: "" },
-  { title: "Cricket Tournament Starts", category: "Sports", date: new Date("2026-04-12T00:00:00Z"), tags: ["ALL"], color: "#F43F5E", description: "" },
-  { title: "Athletics Selection Trials", category: "Sports", date: new Date("2026-04-09T00:00:00Z"), tags: ["ALL"], color: "#F43F5E", description: "" },
-  { title: "Scholarship Deadline (State)", category: "Deadline", date: new Date("2026-04-14T00:00:00Z"), tags: ["ALL"], color: "#8B5CF6", description: "" },
-  { title: "AICTE Pragati Deadline", category: "Deadline", date: new Date("2026-04-19T00:00:00Z"), tags: ["ALL"], color: "#8B5CF6", description: "" },
-  { title: "Hostel Room Allotment Starts", category: "Deadline", date: new Date("2026-04-18T00:00:00Z"), tags: ["ALL"], color: "#06B6D4", description: "" },
-  { title: "TEDx SAGI Event", category: "Club", date: new Date("2026-05-05T00:00:00Z"), tags: ["ALL"], color: "#F59E0B", description: "" },
+  { title: "TCS Pre-Placement Talk", category: "Deadline", date: daysFromNow(0), tags: ["CSE-4","IT-4","ECE-4"], color: "#10B981", description: "" },
+  { title: "Resume Workshop", category: "Workshop", date: daysFromNow(1), tags: ["ALL"], color: "#F59E0B", description: "" },
+  { title: "Athletics Selection Trials", category: "Sports", date: daysFromNow(2), tags: ["ALL"], color: "#F43F5E", description: "" },
+  { title: "Blood Donation Camp", category: "Club", date: daysFromNow(4), tags: ["ALL"], color: "#EF4444", description: "" },
+  { title: "Infosys On-Campus Drive", category: "Deadline", date: daysFromNow(6), tags: ["CSE-4","IT-4"], color: "#10B981", description: "" },
+  { title: "Cricket Tournament Starts", category: "Sports", date: daysFromNow(7), tags: ["ALL"], color: "#F43F5E", description: "" },
+  { title: "Scholarship Deadline (State)", category: "Deadline", date: daysFromNow(8), tags: ["ALL"], color: "#8B5CF6", description: "" },
+  { title: "Mid-Semester Exams Begin", category: "Exam", date: daysFromNow(9), tags: ["ALL"], color: "#EF4444", description: "" },
+  { title: "Hostel Room Allotment Starts", category: "Deadline", date: daysFromNow(10), tags: ["ALL"], color: "#06B6D4", description: "" },
+  { title: "Aarohan Cultural Fest - Day 1", category: "Club", date: daysFromNow(11), tags: ["ALL"], color: "#8B5CF6", description: "" },
+  { title: "Aarohan Cultural Fest - Day 2", category: "Club", date: daysFromNow(12), tags: ["ALL"], color: "#8B5CF6", description: "" },
+  { title: "Aarohan Cultural Fest - Day 3", category: "Club", date: daysFromNow(13), tags: ["ALL"], color: "#8B5CF6", description: "" },
+  { title: "AICTE Pragati Deadline", category: "Deadline", date: daysFromNow(14), tags: ["ALL"], color: "#8B5CF6", description: "" },
+  { title: "Mid-Semester Exams End", category: "Exam", date: daysFromNow(19), tags: ["ALL"], color: "#EF4444", description: "" },
+  { title: "TEDx SAGI Event", category: "Club", date: daysFromNow(25), tags: ["ALL"], color: "#F59E0B", description: "" },
 ];
 
 export const SEED_ASSIGNMENTS: Omit<Assignment, 'id'>[] = [

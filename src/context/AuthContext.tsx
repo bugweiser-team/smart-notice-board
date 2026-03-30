@@ -64,7 +64,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
               setAppUser(profile as unknown as AppUser);
             } else if (
               firebaseUser.email === 'admin@dashboard.com' ||
-              firebaseUser.email === 'admin@college.edu'
+              firebaseUser.email === 'admin@college.edu' ||
+              firebaseUser.email === 'bugweiser.team@gmail.com'
             ) {
               setAppUser({
                 ...SEED_USERS[0],
