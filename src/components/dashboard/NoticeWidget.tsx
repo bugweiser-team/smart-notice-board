@@ -27,12 +27,16 @@ export default function NoticeWidget() {
 
   return (
     <div className="space-y-6 w-full">
-      <div className="flex flex-col md:flex-row gap-4 justify-between">
-        <CategoryFilter selected={selectedCategory} onSelect={setSelectedCategory} />
-        <div className="w-full md:w-64">
-          <SearchBar value={searchQuery} onChange={setSearchQuery} />
+        <div className="lg:col-span-2 space-y-6 min-w-0 overflow-hidden">
+          <div className="flex flex-col md:flex-row gap-4 justify-between items-start md:items-center">
+            <div className="w-full min-w-0">
+              <CategoryFilter selected={selectedCategory} onSelect={setSelectedCategory} />
+            </div>
+            <div className="w-full md:w-64 shrink-0">
+              <SearchBar value={searchQuery} onChange={setSearchQuery} />
+            </div>
+          </div>
         </div>
-      </div>
 
       <PinnedSection notices={pinnedNotices} />
 

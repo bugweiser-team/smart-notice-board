@@ -28,29 +28,35 @@ export default function CategoryFilter({ selected, onSelect }: Props) {
   }, []);
 
   return (
-    <div className="relative w-full">
-      {/* Left fade */}
+    <div className="relative w-full overflow-hidden">
+      {/* Left fade - explicitly handle both themes with standard classes */}
       {canScrollLeft && (
-        <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-[var(--surface-primary)] to-transparent z-10 pointer-events-none" />
+        <div className="absolute left-0 top-0 bottom-0 w-10 bg-gradient-to-r from-[var(--surface-primary)] to-transparent z-10 pointer-events-none" />
       )}
       {/* Right fade */}
       {canScrollRight && (
-        <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-[var(--surface-primary)] to-transparent z-10 pointer-events-none" />
+        <div className="absolute right-0 top-0 bottom-0 w-10 bg-gradient-to-l from-[var(--surface-primary)] to-transparent z-10 pointer-events-none" />
       )}
       <div
         ref={scrollRef}
         onScroll={checkScroll}
-        className="flex gap-2.5 overflow-x-auto pb-3 pt-1 px-1 scrollbar-hide -mx-1 snap-x scroll-smooth touch-pan-x"
-        style={{ WebkitOverflowScrolling: 'touch' }}
+        className="flex gap-2.5 overflow-x-auto pb-4 pt-1 px-1 scrollbar-hide -mx-1 touch-pan-x"
+        style={{ 
+          WebkitOverflowScrolling: 'touch',
+          scrollbarWidth: 'none',
+          msOverflowStyle: 'none'
+        }}
       >
-        <div className="snap-start shrink-0">
+        <div className="shrink-0">
           <CategoryPill category="All" active={selected === 'All'} onClick={() => onSelect('All')} />
         </div>
         {CATEGORIES.map((cat) => (
-          <div key={cat} className="snap-start shrink-0">
+          <div key={cat} className="shrink-0">
             <CategoryPill category={cat} active={selected === cat} onClick={() => onSelect(cat)} />
           </div>
         ))}
+        {/* Invisible spacer to ensure last pill doesn't clip */}
+        <div className="shrink-0 w-4" aria-hidden="true" />
       </div>
     </div>
   );
