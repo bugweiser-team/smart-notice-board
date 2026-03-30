@@ -2,14 +2,32 @@
 // @ts-ignore
 import Calendar from 'react-calendar';
 import { useState, useEffect } from 'react';
-import { useEvents } from '@/hooks/useEvents';
+import { useNotices } from '@/hooks/useNotices';
 import { format } from 'date-fns';
 import 'react-calendar/dist/Calendar.css';
 
 export default function CalendarWidget() {
   const [date, setDate] = useState<Date>(new Date());
   const [mounted, setMounted] = useState(false);
-  const { events } = useEvents();
+  const { filteredNotices } = useNotices();
+
+  const colorMap: Record<string, string> = {
+    'Academic': '#EF4444',
+    'Placement': '#10B981',
+    'Events': '#8B5CF6',
+    'Scholarships': '#3B82F6',
+    'Sports': '#F59E0B',
+    'Hostel': '#06B6D4',
+    'General': '#6B7280'
+  };
+
+  const events = filteredNotices.map(n => ({
+    id: n.id,
+    title: n.title,
+    category: n.category,
+    date: n.expiryDate || n.postedAt,
+    color: colorMap[n.category] || '#6B7280'
+  }));
 
   useEffect(() => {
     setMounted(true);

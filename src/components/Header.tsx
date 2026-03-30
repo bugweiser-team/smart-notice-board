@@ -20,11 +20,13 @@ export default function Header() {
           {user ? (
             <button 
               onClick={() => {
-                if (!isFirebaseConfigured) {
-                  localStorage.removeItem('mockRole');
-                  window.location.href = '/login';
-                } else {
-                  import('@/lib/auth').then(({ logout }) => logout());
+                if (window.confirm('Are you sure you want to log out?')) {
+                  if (!isFirebaseConfigured) {
+                    localStorage.removeItem('mockRole');
+                    window.location.href = '/login';
+                  } else {
+                    import('@/lib/auth').then(({ logout }) => logout());
+                  }
                 }
               }}
               className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white text-xs font-bold hover:opacity-80 transition-opacity cursor-pointer"
