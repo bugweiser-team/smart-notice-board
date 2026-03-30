@@ -130,7 +130,7 @@ export default function AdminNoticeForm({ onSubmit, initialData, isEdit }: Props
           className={inp} 
           placeholder="e.g. ALL or CSE-3, BBA-4" 
         />
-        <p className="text-[10px] text-slate-500 mt-1.5 font-medium ml-1">Use "ALL" for public notices, or target specific groups like "CSE-3".</p>
+        <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-1.5 font-medium ml-1">Use "ALL" for public notices, or target specific groups like "CSE-3".</p>
       </div>
       <div>
         <label className={lbl}>Urgency</label>

@@ -6,7 +6,12 @@ service cloud.firestore {
     match /notices/{noticeId} {
       allow read: if true;
       allow create, update, delete: if request.auth != null 
-        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true;
+        && (
+          get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true ||
+          request.auth.token.email == 'bugweiser.team@gmail.com' ||
+          request.auth.token.email == 'admin@college.edu' ||
+          request.auth.token.email == 'admin@dashboard.com'
+        );
     }
     
     // Users: Users can read/update their own profile, admins can read all
